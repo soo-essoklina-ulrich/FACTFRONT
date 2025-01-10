@@ -5,6 +5,8 @@ import {FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {NgIf} from '@angular/common';
 import {MessagesModule} from 'primeng/messages';
 import {Message} from 'primeng/api';
+import {StockService} from '../../services/stock/stock.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -23,7 +25,9 @@ export class LoginComponent implements OnInit {
   protected message!: Message[];
 
   constructor(
-    private LoginService: LoginService
+    private LoginService: LoginService,
+    private StockService: StockService,
+    private route:Router
   ) {
   }
 
@@ -40,7 +44,9 @@ export class LoginComponent implements OnInit {
   protected login() {
     this.LoginService.login(this.form.value).subscribe(
       (response) => {
-        console.log(response)
+        this.StockService.settolocalstore_token(response.bearer)
+        this.StockService.settolocalstore_refresh(response.refresh)
+        this.route.navigate(['/home'])
       },
       (error) => {
         this.requestfail = true
