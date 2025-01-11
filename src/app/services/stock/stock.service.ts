@@ -27,4 +27,9 @@ export class StockService {
     const item = localStorage.getItem(this.refresh);
     return item?item:"";
   }
+
+  clear() {
+    localStorage.removeItem(this.token);
+    localStorage.removeItem(this.refresh);
+  }
 }

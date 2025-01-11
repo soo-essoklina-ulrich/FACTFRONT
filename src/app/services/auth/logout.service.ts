@@ -4,6 +4,7 @@ import {environment} from '../../../environments/environment';
 import {Router} from '@angular/router';
 import {DialogService} from 'primeng/dynamicdialog';
 import {MydynamicdialogComponent} from '../../layout/component/mydynamicdialog/mydynamicdialog.component';
+import {StockService} from '../stock/stock.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,7 @@ export class LogoutService {
 
   constructor(
     private dialogService: DialogService,
+    private stocke: StockService,
     private http: HttpClient,
     private router: Router
   ) {
@@ -20,14 +22,13 @@ export class LogoutService {
   logout() {
     this.http.post(environment.api_ulr + 'auth/logout', {}).subscribe(
       res => {
-        console.log(res);
+        this.stocke.clear();
       },
       err => {
         console.log(err);
       }
     );
     this.router.navigate(['/connexion']).then(r => console.log(r));
-    localStorage.clear();
   }
 
   gotologinpage() {
