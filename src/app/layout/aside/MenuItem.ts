@@ -1,6 +1,13 @@
 export interface MenuItem{
-  subMenu?: boolean
+
   label: string;
-  icon: string;
-  link: string;
+  icon?: string;
+  link?: string;
+  submenu?: SubMenuItem[];
+}
+
+interface SubMenuItem{
+  label: string;
+  icon?: string;
+  link?: string;
 }

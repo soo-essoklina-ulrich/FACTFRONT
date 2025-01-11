@@ -18,30 +18,21 @@
     <nav class=" w-full flex flex-col sidebar-nav px-4 mt-5">
       <ul  id="sidebarnav" class="text-gray-600 text-sm">
         @for (item of menuItems; track item){
-        <li class="text-xs font-bold pb-[5px]">
+          <li [class]="item.label=='HOME'?'text-xs font-bold pb-[5px]':'text-xs font-bold mb-4 mt-6'">
           <i class="ti ti-dots nav-small-cap-icon text-lg hidden text-center"></i>
-          <span class="text-xs text-gray-400 font-semibold">HOME</span>
+          <span class="text-xs text-gray-400 font-semibold">{{item.label}}</span>
         </li>
+          @for (subitem of item.submenu; track subitem){
+            <li class="sidebar-item">
+              <a class="sidebar-link gap-3 py-2.5 my-1 text-base  flex items-center relative  rounded-md text-gray-500  w-full" routerLink="{{subitem.link}}" routerLinkActive="active"  [routerLinkActiveOptions]="{exact:true}"
+              >
+                <i [class]="subitem.icon+' ps-2  text-2xl'"></i> <span>{{subitem.label}}</span>
+              </a>
+            </li>
+          }
 
-        <li class="sidebar-item">
-          <a class="sidebar-link gap-3 py-2.5 my-1 text-base  flex items-center relative  rounded-md text-gray-500  w-full" href="../index.html"
-          >
-            <i class="ti ti-layout-dashboard ps-2  text-2xl"></i> <span>Dashboard</span>
-          </a>
-        </li>
+          }
 
-          <li class="text-xs font-bold mb-4 mt-6">
-            <i class="ti ti-dots nav-small-cap-icon text-lg hidden text-center"></i>
-            <span class="text-xs text-gray-400 font-semibold">UI COMPONENTS</span>
-          </li>
-
-        <li class="sidebar-item">
-          <a class="sidebar-link gap-3 py-2.5 my-1 text-base   flex items-center relative  rounded-md text-gray-500  w-full" href="../components/buttons.html"
-          >
-            <i class="ti ti-article ps-2 text-2xl"></i> <span>Buttons</span>
-          </a>
-        </li>
-        }
 
       </ul>
     </nav>
