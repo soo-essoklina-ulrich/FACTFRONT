@@ -21,7 +21,7 @@ export const setjwtInterceptor: HttpInterceptorFn = (req, next) => {
 
   if (!excludedUrls.includes(req.url)) {
     if (!decode.isTokenExpired()) {
-      req  = req.clone({
+      req = req.clone({
         setHeaders: {
           Authorization: `Bearer ${stockService.gettolocalstore_token()}`
         }
@@ -37,12 +37,12 @@ export const setjwtInterceptor: HttpInterceptorFn = (req, next) => {
           logout.gotologinpage()
         }
       );
-      req  = req.clone({
+      req = req.clone({
         setHeaders: {
           Authorization: `Bearer ${stockService.gettolocalstore_token()}`
         }
       });
-
+      console.log('finish  here')
     }
     return next(req)
   }

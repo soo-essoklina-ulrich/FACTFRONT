@@ -40,6 +40,11 @@ export class AsideComponent implements OnInit {
           {label: "Article", icon: "fa-solid fa-tags", link: "/home/article"},
         ]
       },
+      {
+        label: "Profile", submenu: [
+          {label: "profile", icon: "fa-solid fa-user", link: "/home/profile"},
+        ]
+      },
     ]
   }
 

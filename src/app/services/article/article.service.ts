@@ -16,7 +16,7 @@ export class ArticleService {
   ) { }
 
   createform(){
-    this.fb.group({
+    return this.fb.group({
       libelle: ['', Validators.required],
       prix_unitaire: ['', Validators.required]
     });
@@ -24,7 +24,7 @@ export class ArticleService {
 
 
   getArticles(){
-    return this.http.get<Article>(this.url);
+    return this.http.get<Article[]>(this.url);
   }
 
   updateArticle(id:string, article: SaveArticle){
