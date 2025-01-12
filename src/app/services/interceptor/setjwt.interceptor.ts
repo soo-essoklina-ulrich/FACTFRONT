@@ -31,17 +31,17 @@ export const setjwtInterceptor: HttpInterceptorFn = (req, next) => {
         res => {
           stockService.settolocalstore_token(res.bearer)
           stockService.settolocalstore_refresh(res.refresh)
+          req = req.clone({
+            setHeaders: {
+              Authorization: `Bearer ${res.bearer}`
+            }
+          });
         },
         error => {
           console.log(error)
           logout.gotologinpage()
         }
       );
-      req = req.clone({
-        setHeaders: {
-          Authorization: `Bearer ${stockService.gettolocalstore_token()}`
-        }
-      });
       console.log('finish  here')
     }
     return next(req)
