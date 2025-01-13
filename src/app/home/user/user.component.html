@@ -1,0 +1,161 @@
+<p-toast/>
+<div class="card">
+  <div class="card-body">
+    <h6 class="text-lg text-gray-500 font-semibold mb-6">
+      Utilisateurs
+    </h6>
+
+
+    <div class="card">
+      @if (loading) {
+        <app-loader [loading]="loading"/>
+      } @else {
+        <p-table
+          [value]="users"
+          [rows]="10"
+          [rowsPerPageOptions]="[10, 25, 50]"
+          [paginator]="true"
+        >
+          <ng-template pTemplate="caption">
+            <div class="flex justify-between mb-3">
+              <input
+                class="py-3 px-4 text-gray-500 block border-gray-200 rounded-sm text-sm focus:border-blue-600 focus:ring-0 "
+                type="text"
+                (input)="filterGlobal($event)"
+                placeholder="Recherche un Utilisateur"
+              />
+              <button
+                pButton
+                pTooltip="Ajouter un Utilisateur"
+                tooltipPosition="top"
+                icon="fa-solid fa-plus"
+                (click)="showAddUserModal()"
+              ></button>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="header">
+            <tr>
+              <th>#</th>
+              @for (item of columns; track item) {
+                <th>
+                  {{ item.header }}
+                </th>
+              }
+              <th>Active</th>
+              <th>Action</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-user let-index="rowIndex">
+            <tr>
+              <td>
+                {{ index + 1 }}
+              </td>
+              @for (item of columns; track item) {
+                <td>
+                  {{ user[item.field] }}
+                </td>
+              }
+              <td>
+                <p-inputSwitch [(ngModel)]="user.actif" [pTooltip]="user.actif?'Active':'Desactive'"
+                               (onChange)="activateorDesactivate(user.id)"></p-inputSwitch>
+              </td>
+              <td>
+                <div class=" flex items-center gap-3 justify-center">
+                  <i
+                    [pTooltip]="'Mette a jour '+user.nom"
+                    tooltipPosition="top"
+                    class="fa-solid fa-edit h-9" style="color: blue; cursor: pointer; font-size: x-large"
+                    (click)="showUpdateUserModal(user.id)"
+                  ></i>
+
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+
+        </p-table>
+      }
+    </div>
+  </div>
+</div>
+
+
+<p-dialog
+  header="Ajouter un Utilisateur"
+  [(visible)]="visisbleadd"
+  [style]="{ width: '50rem'}"
+  [style.min-height]="50"
+  [modal]="true"
+  [resizable]="true"
+  maximizable="true"
+  [baseZIndex]="10000"
+>
+  <div class="card mt-2">
+    <div class="card-body">
+      <form [formGroup]="formadd" (ngSubmit)="addUser()">
+
+        @for (control of formadd.controls | keyvalue; track control) {
+          <div class="mb-6">
+            <label [for]="control.key" class="block text-sm mb-2 text-gray-400">{{ control.key|titlecase }}</label>
+            <input
+              pInputText
+              [type]="control.key === 'email' ? 'email' : 'text'"
+              [id]="control.key"
+              [formControlName]="control.key"
+              class="w-full py-3 px-4 text-gray-500 block border-gray-200 rounded-sm text-sm focus:border-blue-600 focus:ring-0"
+            />
+            <p *ngIf="control.value.invalid " class="text-red-500 text-sm">le champ {{ control.key|titlecase }} est
+              obligatoire</p>
+          </div>
+        }
+
+        <div class="justify-center items-center flex my-6">
+          <button pButton label="Ajout" icon="fa-regular fa-paper-plane" type="submit"
+                  class="btn py-[10px] text-base text-white font-medium hover:bg-blue-700"></button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</p-dialog>
+
+@if (user) {
+  <p-dialog
+    [header]="'Modification de '+user.nom"
+    [(visible)]="visisbleupdate"
+    [style]="{ width: '50%' }"
+    [modal]="true"
+    [resizable]="false"
+    [baseZIndex]="10000"
+  >
+    <div class="card mt-2">
+      <div class="card-body">
+        <form [formGroup]="formupdate" (ngSubmit)="upadateUser()">
+
+          @for (control of formupdate.controls | keyvalue; track control) {
+            <div class="mb-6" [hidden]="control.key.includes('id')">
+              <label [for]="control.key" class="block text-sm mb-2 text-gray-400">{{ control.key|titlecase }}</label>
+              <input
+                [type]="control.key === 'email' ? 'email' : 'text'"
+                [id]="control.key"
+                [formControlName]="control.key"
+                [value]="control.value"
+                class="w-full py-3 px-4 text-gray-500 block border-gray-200 rounded-sm text-sm focus:border-blue-600 focus:ring-0"
+              />
+              <p *ngIf="control.value.invalid  " class="text-red-500 text-sm">le champ {{ control.key|lowercase }} est
+                obligatoire</p>
+
+
+            </div>
+          }
+
+          <div class="grid my-6">
+            <button [disabled]="!formupdate.valid" type="submit"
+                    class="btn py-[10px] text-base text-white font-medium hover:bg-blue-700">Update
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </p-dialog>
+}

@@ -25,13 +25,14 @@ export class AsideComponent implements OnInit {
 
       {
         label: "Gestion Utilisateur", submenu: [
-          {label: "user list", icon: "fa-solid fa-people-group", link: "/home/user"},
+          {label: "User list", icon: "fa-solid fa-people-group", link: "/home/user"},
+          {label: "Client list", icon: "fa-regular fa-address-book", link: "/home/client"},
         ]
       },
       {
         label: "Gestion Facture", submenu: [
-          {label: "Proforma", icon: "fa-solid fa-file-lines", link: "/home/proforma"},
-          {label: "Borderaux", icon: "fa-solid fa-file", link: "/home/borderaux"},
+          {label: "Proforma", icon: "fa-regular fa-file-lines", link: "/home/proforma"},
+          {label: "Borderaux", icon: "fa-regular fa-file", link: "/home/borderaux"},
           {label: "Facture", icon: "fa-solid fa-file-invoice-dollar", link: "/home/facture"},
         ]
       },
@@ -42,7 +43,7 @@ export class AsideComponent implements OnInit {
       },
       {
         label: "Profile", submenu: [
-          {label: "profile", icon: "fa-solid fa-user", link: "/home/profile"},
+          {label: "profile", icon: "fa-solid fa-gear", link: "/home/profile"},
         ]
       },
     ]

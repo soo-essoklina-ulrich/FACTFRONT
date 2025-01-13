@@ -5,8 +5,17 @@ export interface UtilisateurDto{
   telephone:number,
   email:string,
   username:string,
-  roles:string,
+  role:string,
   dateCreation:Date,
+  actif:boolean
+}
+
+export interface UtilisateurUpdate{
+  id:string,
+  nom:string,
+  prenom:string,
+  email:string,
+  numero:number,
 }
 
 export interface Login{
