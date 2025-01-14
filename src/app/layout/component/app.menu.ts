@@ -29,6 +29,11 @@ export class AppMenu {
                 label: 'Gestion Utilisateur',
                 items: [
                     {label: 'User List', icon: 'pi pi-fw pi-users', routerLink: ['/home/user']},
+                ]
+            },{
+                label: 'Projet - Client',
+                items: [
+                    {label: 'Projet', icon: 'pi pi-fw pi-briefcase', routerLink: ['/home/projet']},
                     {label: 'Client List', icon: 'pi pi-fw pi-user', routerLink: ['/home/client']}
                 ]
             },
