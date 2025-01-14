@@ -119,7 +119,7 @@ export class ArticleComponent implements OnInit {
     deleteArticle(id: string) {
         this.ArticleService.deleteArticle(id).subscribe(
             (res) => {
-                this.articlesList = this.articlesList.filter((article) => article.id !== id);
+                this.articlesListo = this.articlesList = this.articlesList.filter((article) => article.id !== id);
                 this.messageService.add({
                     severity: 'success',
                     summary: 'Success',
