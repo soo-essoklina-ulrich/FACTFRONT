@@ -3,6 +3,7 @@ import { AppLayout } from './app/layout/component/app.layout';
 
 
 import { Notfound } from './app/pages/notfound/notfound';
+import {homeguardGuard} from "./app/services/guard/homeguard.guard";
 
 export const appRoutes: Routes = [
     {path: '', redirectTo: '/auth', pathMatch: 'full'},
@@ -12,6 +13,9 @@ export const appRoutes: Routes = [
         children: [
             { path: '', loadChildren: () => import('./app/pages/pages.routes') }
         ]
+        ,
+        canActivate: [homeguardGuard],
+        canActivateChild:[homeguardGuard]
     },
     { path: 'notfound', component: Notfound },
     { path: 'auth', loadChildren: () => import('./app/pages/auth/auth.routes') },
