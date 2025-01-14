@@ -13,7 +13,6 @@ import {InputText} from "primeng/inputtext";
 import {Dialog} from "primeng/dialog";
 import {InputNumber} from "primeng/inputnumber";
 import {Password} from "primeng/password";
-import {InputSwitch} from "primeng/inputswitch";
 import {ToggleSwitch} from "primeng/toggleswitch";
 
 @Component({
@@ -30,7 +29,6 @@ import {ToggleSwitch} from "primeng/toggleswitch";
         ReactiveFormsModule,
         InputNumber,
         Password,
-        InputSwitch,
         ToggleSwitch,
         FormsModule
     ],
