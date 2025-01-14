@@ -1,0 +1,217 @@
+<p-toast/>
+<div class="card">
+    @if (loading) {
+        <app-loader/>
+    } @else {
+        <p-table
+
+            [value]="userlist"
+            [rows]="10"
+            [rowsPerPageOptions]="[10, 25, 50]"
+            [paginator]="true"
+            stripedRows
+            [tableStyle]="{'min-width': '50rem'}"
+        >
+            <ng-template #caption>
+                <div class="flex justify-between items-center mb-3">
+
+                    <input
+                        pInputText
+                        type="text"
+                        (input)="filterGlobal($event)"
+                        placeholder="Recherche un User"/>
+
+                    <div class="flex justify-around items-center ">
+                        <p-button
+                            class="mx-1"
+                            pTooltip="Ajouter un User"
+                            tooltipPosition="top"
+                            icon="fa-solid fa-plus"
+                            (click)="showAddDialog()"
+                        />
+                        <p-button
+                            class="mx-1"
+                            pTooltip="Recharge les Users"
+                            tooltipPosition="top"
+                            icon="fa-solid fa-refresh"
+                            (click)="getUsers()"
+                        />
+
+                    </div>
+                </div>
+            </ng-template>
+            <ng-template #header>
+                <tr>
+                    <th>#</th>
+                    <th>Nom</th>
+                    <th>Prenom</th>
+                    <th>Email</th>
+                    <th>Telephone</th>
+                    <th>Role</th>
+                    <th>Creer le .</th>
+                    <th>Activer ?</th>
+                    <th>Action</th>
+                </tr>
+
+            </ng-template>
+            <ng-template #body let-user let-index="rowIndex">
+                <tr>
+                    <td>{{ index + 1 }}</td>
+                    <td>{{ user.nom }}</td>
+                    <td>{{ user.prenom }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.telephone }}</td>
+                    <td>{{ user.role }}</td>
+                    <td>{{ user.dateCreation|date }}</td>
+                    <td>
+                        <p-toggleswitch
+                            [pTooltip]="user.actif ? 'Activer' : 'Desactiver'"
+                            tooltipPosition="top"
+                            [(ngModel)]="user.actif"
+                            (onChange)="activerDesactiverUser(user.id)"
+                        ></p-toggleswitch>
+                    </td>
+                    <td>
+                        <p-button
+                            class="mx-1"
+                            pTooltip="Modifier"
+                            tooltipPosition="top"
+                            icon="fa-solid fa-edit"
+                            [raised]="true"
+                            severity="secondary"
+                            (click)="showEditDialog(user.id)"
+                        />
+                        <p-button
+                            class="mx-1"
+                            pTooltip="Supprimer"
+                            tooltipPosition="top"
+                            icon="fa-solid fa-trash"
+                            [raised]="true"
+                            severity="danger"
+                            (click)="supprimerUser(user.id)"
+                        />
+                </tr>
+            </ng-template>
+            <ng-template #emptymessage>
+                <tr>
+                    <td colspan="7">
+                        <div class="flex justify-center items-center">
+                            <p>No data found</p>
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+
+        </p-table>
+    }
+</div>
+
+
+<p-dialog
+    [header]="dialogheader"
+    [(visible)]="visibleaddmoal"
+    [style]="{width: '50rem'}"
+    [modal]="true"
+    [resizable]="false"
+    [baseZIndex]="10000"
+    [contentStyle]="{'max-height': '80vh', 'overflow': 'auto'}"
+
+>
+    <form [formGroup]="form" (ngSubmit)="saveUser()">
+        <div class="flow-root mb-3">
+            <div class="grid gap-5 grid-cols-2 grid-rows-1">
+                <div>
+                    <label for="nom" class="block text-sm font-medium text-gray-700">Nom</label>
+                    <input pInputText type="text" id="nom" autocomplete="nom" formControlName="nom"
+                           class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                </div>
+                <div>
+                    <label for="prenom" class="block text-sm font-medium text-gray-700">Prenom</label>
+                    <input pInputText type="text" id="prenom" autocomplete="prenom" formControlName="prenom"
+                           class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                </div>
+            </div>
+        </div>
+        <div class="flow-root mb-3">
+            <div class="grid gap-5 grid-cols-2 grid-rows-1">
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                    <input pInputText type="email" id="email" autocomplete="email" formControlName="email"
+                           class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                </div>
+                <div>
+                    <label for="number" class="block text-sm font-medium text-gray-700">Telephone</label>
+                    <p-input-number type="text" id="number" autocomplete="numero" formControlName="numero"
+                                    class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"></p-input-number>
+                </div>
+            </div>
+        </div>
+        <div class="flow-root mb-3">
+            <div class="grid gap-5 grid-cols-2 grid-rows-1">
+                <div>
+                    <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
+                    <input pInputText type="text" id="username" autocomplete="username" formControlName="username"
+                           class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                </div>
+                <div>
+                    <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                    <p-password id="password" formControlName="password" [toggleMask]="true"
+                                [fluid]="true"
+                                class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                    </p-password>
+                </div>
+            </div>
+        </div>
+        <div class="flex items-start justify-between mt-2">
+            <p-button icon="pi pi-plus" styleClass="w-full" type="submit" [disabled]="form.invalid"></p-button>
+        </div>
+    </form>
+</p-dialog>
+
+
+<p-dialog
+    [header]="dialogheader"
+    [(visible)]="visibleeditmoal"
+    [style]="{width: '50rem'}"
+    [modal]="true"
+    [resizable]="false"
+    [baseZIndex]="10000"
+    [contentStyle]="{'max-height': '80vh', 'overflow': 'auto'}"
+>
+    <form [formGroup]="formupdate" (ngSubmit)="editUser()">
+        <div class="flow-root mb-3">
+            <div class="grid gap-5 grid-cols-2 grid-rows-1">
+                <div>
+                    <label for="nomu" class="block text-sm font-medium text-gray-700">Nom</label>
+                    <input pInputText type="text" id="nomu" autocomplete="nom" formControlName="nom"
+                           class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                </div>
+                <div>
+                    <label for="prenomu" class="block text-sm font-medium text-gray-700">Prenom</label>
+                    <input pInputText type="text" id="prenomu" autocomplete="prenom" formControlName="prenom"
+                           class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                </div>
+            </div>
+        </div>
+        <div class="flow-root mb-3">
+            <div class="grid gap-5 grid-cols-2 grid-rows-1">
+                <div>
+                    <label for="emailu" class="block text-sm font-medium text-gray-700">Email</label>
+                    <input pInputText type="email" id="emailu" autocomplete="email" formControlName="email"
+                           class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                </div>
+                <div>
+                    <label for="numberu" class="block text-sm font-medium text-gray-700">Telephone</label>
+                    <p-input-number type="text" id="numberu" autocomplete="numero" formControlName="numero"
+                                    class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"></p-input-number>
+                </div>
+            </div>
+        </div>
+        <div class="flex items-start justify-between mt-2">
+            <p-button label="Update" styleClass="w-full" type="submit" [disabled]="formupdate.invalid"></p-button>
+        </div>
+    </form>
+
+</p-dialog>
+
+
