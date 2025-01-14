@@ -28,17 +28,17 @@ export class AppMenu {
             {
                 label: 'Gestion Utilisateur',
                 items: [
-                    {label: 'User List', icon: 'pi pi-fw pi-home', routerLink: ['/home/user']},
-                    {label: 'Client List', icon: 'pi pi-fw pi-home', routerLink: ['/home/client']}
+                    {label: 'User List', icon: 'pi pi-fw pi-users', routerLink: ['/home/user']},
+                    {label: 'Client List', icon: 'pi pi-fw pi-user', routerLink: ['/home/client']}
                 ]
             },
             {
                 label: 'Gestion Article',
-                items: [{label: 'Article', icon: 'pi pi-fw pi-home', routerLink: ['/home/article']}]
+                items: [{label: 'Article', icon: 'pi pi-fw pi-tags', routerLink: ['/home/article']}]
             },
             {
                 label: 'Me',
-                items: [{label: 'Profile', icon: 'pi pi-fw pi-home', routerLink: ['/home/profile']}]
+                items: [{label: 'Profile', icon: 'pi pi-fw pi-spin pi-cog', routerLink: ['/home/profile']}]
             },
 
         ];
