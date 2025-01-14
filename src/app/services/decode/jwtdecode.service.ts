@@ -22,7 +22,7 @@ export class JwtdecodeService {
 
   public isTokenExpired():boolean{
     const date = this.getexpirationdate();
-    if(date===undefined) return false;
+    if(date===undefined) return true;
     return !(date!.valueOf() > Date.now().valueOf());
   }
 }
