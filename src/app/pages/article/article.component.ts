@@ -11,6 +11,7 @@ import {Toast} from "primeng/toast";
 import {NgIf} from "@angular/common";
 import {InputText} from "primeng/inputtext";
 import {LoaderComponent} from "../../layout/component/loader/loader.component";
+import {InputNumber} from "primeng/inputnumber";
 
 @Component({
     selector: 'app-article',
@@ -23,7 +24,8 @@ import {LoaderComponent} from "../../layout/component/loader/loader.component";
         Toast,
         NgIf,
         InputText,
-        LoaderComponent
+        LoaderComponent,
+        InputNumber
     ],
     templateUrl: './article.component.html',
     styleUrl: './article.component.scss',

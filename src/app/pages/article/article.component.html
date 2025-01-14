@@ -125,9 +125,9 @@
                     <label for="input-label-with-helper-text1"
                            class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">Prix
                         Unitaire</label>
-                    <input pInputText type="number" id="input-label-with-helper-text1" formControlName="prix_unitaire"
+                    <p-input-number type="number" id="input-label-with-helper-text1" formControlName="prix_unitaire"
                            class="w-full md:w-full "
-                           aria-describedby="hs-input-helper-text">
+                                    aria-describedby="hs-input-helper-text"></p-input-number>
 
 
                     <p *ngIf="form.get('prix_unitaire')?.errors?.['required'] && form.get('prix_unitaire')?.touched"

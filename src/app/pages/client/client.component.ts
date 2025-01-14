@@ -12,7 +12,6 @@ import {Tag} from "primeng/tag";
 import {Dialog} from "primeng/dialog";
 import {FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {Checkbox} from "primeng/checkbox";
-import {Password} from "primeng/password";
 import {InputNumber} from "primeng/inputnumber";
 
 @Component({
@@ -28,7 +27,6 @@ import {InputNumber} from "primeng/inputnumber";
         Dialog,
         Checkbox,
         FormsModule,
-        Password,
         ReactiveFormsModule,
         InputNumber
     ],
