@@ -54,36 +54,104 @@
             </ng-template>
             <ng-template #body let-client let-index="rowIndex">
 
-                    <tr>
-                        <td>{{index+1}}</td>
-                        <td>{{client.nom}}</td>
-                        <td>{{client.sigle}}</td>
-                        <td>{{client.lieu}}</td>
-                        <td>{{client.telephone}}</td>
-                        <td>
-                            <p-tag
+                <tr>
+                    <td>{{ index + 1 }}</td>
+                    <td>{{ client.nom }}</td>
+                    <td>{{ client.sigle }}</td>
+                    <td>{{ client.lieu }}</td>
+                    <td>{{ client.telephone }}</td>
+                    <td>
+                        <p-tag
                             [severity]="client.potentiel? 'success':'warn'"
                             [value]="client.potentiel? 'Oui':'Non'"
-                            />
-                        </td>
-                        <td>
-                            <div class=" flex items-center gap-3 justify-center">
-                                <i
-                                    class="pi pi-pencil pi-fw cursor-pointer" style="color: blue"
-                                    (click)="editClient(client.id)"
-                                ></i>
-                                <i
-                                    pTooltip="supprimer {{client.nom}}"
-                                    tooltipPosition="top"
-                                    class="fa-solid fa-trash cursor-pointer" style="color: red"
-                                    (click)="deleteClient(client.id)"
-                                ></i>
-                            </div>
-                        </td>
-                    </tr>
+                        />
+                    </td>
+                    <td>
+                        <div class=" flex items-center gap-3 justify-center">
+                            <i
+                                class="pi pi-pencil pi-fw cursor-pointer" style="color: blue"
+                                (click)="editClient(client.id)"
+                            ></i>
+                            <i
+                                pTooltip="supprimer {{client.nom}}"
+                                tooltipPosition="top"
+                                class="fa-solid fa-trash cursor-pointer" style="color: red"
+                                (click)="deleteClient(client.id)"
+                            ></i>
+                        </div>
+                    </td>
+                </tr>
 
 
             </ng-template>
         </p-table>
     }
 </div>
+
+<!--add dialog-->
+<p-dialog
+    [header]="dialogheader"
+    [modal]="true"
+    [(visible)]="visibleaddmoal"
+>
+    <form [formGroup]="form" (ngSubmit)="saveClient()">
+        <label for="nom"
+               class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">Nom</label>
+        <input pInputText id="nom" type="text" placeholder="Nom"
+               class="w-full md:w-[30rem] mb-8" formControlName="nom"/>
+        <label for="sigle"
+               class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">Sigle</label>
+        <input pInputText id="sigle" type="text" placeholder="Sigle"
+               class="w-full md:w-[30rem] mb-8" formControlName="sigle"/>
+        <label for="lieu"
+               class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">Lieu</label>
+        <input pInputText id="lieu" type="text" placeholder="Lieu"
+               class="w-full md:w-[30rem] mb-8" formControlName="lieu"/>
+        <label for="telephone"
+               class="block text-surface-900 dark:text-surface-0 font-medium text-xl mb-2">Telephone</label>
+        <p-input-number id="telephone" placeholder="Password" formControlName="telephone"
+                        styleClass="mb-4" [fluid]="true"></p-input-number>
+
+        <div class="flex items-center justify-between mt-2 mb-8 gap-8">
+            <div class="flex items-center">
+                <p-checkbox id="rememberme1" formControlName="potentiel" binary class="mr-2"></p-checkbox>
+                <label for="rememberme1">Potentiel</label>
+            </div>
+        </div>
+        <p-button icon="pi pi-plus" styleClass="w-full" type="submit" [disabled]="form.invalid"></p-button>
+    </form>
+
+</p-dialog>
+<!--update dialogue-->
+<p-dialog
+    [header]="dialogheader"
+    [modal]="true"
+    [(visible)]="visibleeditmoal"
+>
+    <form [formGroup]="form" (ngSubmit)="saveClient()">
+        <label for="nomu"
+               class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">Nom</label>
+        <input pInputText id="nomu" type="text" placeholder="Nom"
+               class="w-full md:w-[30rem] mb-8" formControlName="nom"/>
+        <label for="sigleu"
+               class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">Sigle</label>
+        <input pInputText id="sigleu" type="text" placeholder="Sigle"
+               class="w-full md:w-[30rem] mb-8" formControlName="sigle"/>
+        <label for="lieu"
+               class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">Lieu</label>
+        <input pInputText id="lieuu" type="text" placeholder="Lieu"
+               class="w-full md:w-[30rem] mb-8" formControlName="lieu"/>
+        <label for="telephone"
+               class="block text-surface-900 dark:text-surface-0 font-medium text-xl mb-2">Telephone</label>
+        <p-input-number id="telephoneu" placeholder="Password" formControlName="telephone"
+                        styleClass="mb-4" [fluid]="true"></p-input-number>
+
+        <div class="flex items-center justify-between mt-2 mb-8 gap-8">
+            <div class="flex items-center">
+                <p-checkbox id="rememberme1u" formControlName="potentiel" binary class="mr-2"></p-checkbox>
+                <label for="rememberme1u">Potentiel</label>
+            </div>
+        </div>
+        <p-button icon="pi pi-fw pi-pen-to-square" styleClass="w-full" type="submit" [disabled]="form.invalid"></p-button>
+    </form>
+</p-dialog>
