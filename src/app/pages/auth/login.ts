@@ -104,13 +104,13 @@ export class Login {
             (response) => {
                 this.StockService.settolocalstore_token(response.bearer)
                 this.StockService.settolocalstore_refresh(response.refresh)
-                this.route.navigate(['/home'])
+                this.route.navigate(['/home']).then(r => r)
             },
             (error) => {
 
                 this.message = [{
                     severity: 'error', detail: error.error.detail,
-                    type: ''
+                   type: 'error'
                 }]
                 console.log(error)
             }

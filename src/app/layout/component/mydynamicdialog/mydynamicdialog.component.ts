@@ -27,7 +27,7 @@ export class MydynamicdialogComponent implements OnInit {
 
   close(){
     this.ref.close(
-      this.router.navigate(['/connexion']).then(r => console.log(r))
+      this.router.navigate(['/auth']).then(r => console.log(r))
     );
   }
 
