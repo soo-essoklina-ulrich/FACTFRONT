@@ -30,11 +30,20 @@ export class AppMenu {
                 items: [
                     {label: 'User List', icon: 'pi pi-fw pi-users', routerLink: ['/home/user']},
                 ]
-            },{
+            },
+            {
                 label: 'Projet - Client',
                 items: [
                     {label: 'Projet', icon: 'pi pi-fw pi-briefcase', routerLink: ['/home/projet']},
                     {label: 'Client List', icon: 'pi pi-fw pi-user', routerLink: ['/home/client']}
+                ]
+            },
+            {
+                label: 'Dossier',
+                items: [
+                    {label: 'Proforma', icon: 'pi pi-fw pi-file', routerLink: ['/home/proforma']},
+                    {label: 'Borderau', icon: 'pi pi-fw pi-file', routerLink: ['/home/borderau']},
+                    {label: 'Facture', icon: 'pi pi-fw pi-file', routerLink: ['/home/facture']}
                 ]
             },
             {
