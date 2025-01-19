@@ -52,7 +52,7 @@ export class ProjetComponent implements OnInit {
     projet!: Projet;
 
     visibleaddmoal: boolean = false;
-    visibleeditmoal: boolean = true;
+    visibleeditmoal: boolean = false;
     dialogheader!: string;
 
     form!: FormGroup;
