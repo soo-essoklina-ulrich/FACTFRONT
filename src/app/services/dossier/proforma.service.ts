@@ -5,6 +5,7 @@ import {Crud} from "../_interface/Crud";
 import { Observable } from 'rxjs';
 import {Proforma} from "../../models/dossier/Proforma";
 import {FormBuilder, Validators} from "@angular/forms";
+import {Article_QuantiteSave} from "../../models/dossier/Article_Quantite";
 
 @Injectable({
     providedIn: 'root'
@@ -39,11 +40,24 @@ export class ProformaService implements Crud {
     getAll(): Observable<Proforma[]> {
         return this.http.get<Proforma[]>(this.url);
     }
-    Updatedata(id: string, data: any): Observable<Proforma> {
-        return this.http.put<Proforma>(this.url + `/${id}`, data);
+
+    getAllNumeroList(): Observable<string[]> {
+        return this.http.get<string[]>(this.url + '/numero');
     }
-    DeleteDAta(id: string): Observable<any> {
-        throw new Error('Method not implemented.');
+
+    getbyNumero(numero: string): Observable<Proforma> {
+        return this.http.get<Proforma>(this.url + `/${numero}`);
+    }
+
+    updatereference(refrence: string): Observable<string> {
+        return this.http.put<string>(this.url + `/${refrence}`, null);
+    }
+
+    Updatedata(id: string, article_quantite:Article_QuantiteSave[]): Observable<Proforma> {
+        return this.http.put<Proforma>(this.url + `/${id}`, article_quantite);
+    }
+    DeleteDAta(numero: string): Observable<any> {
+        return this.http.delete<any>(this.url + `/${numero}`);
     }
 
 
