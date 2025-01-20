@@ -1,0 +1,113 @@
+<p-toast/>
+<div class="card">
+    @if (loading) {
+        <app-loader/>
+    } @else {
+        <p-table
+
+            [value]="borderaulist"
+            [rows]="10"
+            [rowsPerPageOptions]="[10, 25, 50]"
+            [paginator]="true"
+            stripedRows
+            [tableStyle]="{'min-width': '50rem'}"
+        >
+            <ng-template #caption>
+                <div class="flex justify-between items-center mb-3">
+
+                    <input
+                        pInputText
+                        type="text"
+                        (input)="filterBorderau($event)"
+                        placeholder="Recherche par Numero"/>
+
+                    <div class="flex justify-around items-center ">
+                        <p-button
+                            class="mx-1"
+                            pTooltip="Ajouter un Borderau"
+                            tooltipPosition="top"
+                            icon="fa-solid fa-plus"
+                            (click)="showDialog()"
+                        />
+                        <p-button
+                            class="mx-1"
+                            pTooltip="Recharge les borderaus"
+                            tooltipPosition="top"
+                            icon="fa-solid fa-refresh"
+                            (click)="getAllBorderau()"
+                        />
+
+                    </div>
+                </div>
+            </ng-template>
+            <ng-template #header>
+                <tr>
+                    <th>#</th>
+                    <th>Reference</th>
+                    <th>Numero</th>
+                    <th>total_ht</th>
+                    <th>total_tva</th>
+                    <th>total_ttc</th>
+                    <th>Client</th>
+                    <th>Creer le</th>
+                    <th>Action</th>
+                </tr>
+
+            </ng-template>
+            <ng-template #body let-borderau let-index="rowIndex">
+                <tr>
+                    <td>{{ index + 1 }}</td>
+                    <td>{{ borderau.reference }}</td>
+                    <td>{{ borderau.numero }}</td>
+                    <td>{{ borderau.total_ht }}</td>
+                    <td>{{ borderau.total_tva }}</td>
+                    <td>{{ borderau.total_ttc }}</td>
+                    <td>{{ borderau.client }}</td>
+                    <td>{{ borderau.date|date }}</td>
+                    <td>
+                        <div class="flex justify-around items-center ">
+                           <!-- <p-button
+
+                                pTooltip="Modifier"
+                                tooltipPosition="top"
+                                icon="fa-solid fa-edit"
+                                (click)="showEditDialog(borderau.id)"
+                            />-->
+                            <p-button
+                                class="mx-1"
+                                pTooltip="Supprimer"
+                                tooltipPosition="top"
+                                icon="fa-solid fa-trash"
+                                (click)="deleteborderau(borderau.id)"
+                            />
+                            <p-button
+
+                                pTooltip="Creer la Facture"
+                                tooltipPosition="top"
+                                icon="fa-solid fa-file"
+                                (click)="CreateFacture(borderau.id)"
+                            />
+                        </div>
+                </tr>
+            </ng-template>
+        </p-table>
+    }
+</div>
+
+<p-dialog
+[(visible)]="visibleaddmoal"
+[header]="header"
+[modal]="false"
+[resizable]="true"
+[style]="{width: '35vw', height: '30vw'}"
+>
+    <div class="card">
+        <p-select optionLabel="numero" [editable]="true" [(ngModel)]="proforma_selected_id" optionValue="id" [options]="proformalist"  placeholder="Selectionner un proforma" class="w-full"></p-select>
+
+    </div>
+
+    <div class="flex justify-around items-center mt-3">
+        <p-button label="Annuler" severity="info" (click)="visibleaddmoal = false"></p-button>
+        <p-button label="Ajouter" severity="success" (click)="createborderau()" ></p-button>
+    </div>
+</p-dialog>
