@@ -120,7 +120,6 @@ export class ProformaComponent implements OnInit {
                     ...value,
                     adopted: true
                 } as Proforma : value);
-                console.log(data);
                 this.messageService.add({severity: 'success', summary: 'Success', detail: 'Borderau creer avec success'});
             },
             error => {
