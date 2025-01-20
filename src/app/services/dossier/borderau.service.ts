@@ -17,7 +17,7 @@ export class BorderauService implements Crud {
     }
 
     PostData(id_proforma: string): Observable<Borderau> {
-        return this.http.post<Borderau>(`${this.url}`, id_proforma);
+        return this.http.post<Borderau>(`${this.url}/${id_proforma}`, {});
     }
     getAll(): Observable<Borderau[]> {
         return this.http.get<Borderau[]>(`${this.url}`);

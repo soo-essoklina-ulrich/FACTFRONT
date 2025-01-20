@@ -113,7 +113,20 @@ export class ProformaComponent implements OnInit {
     }
 
     adopedAndCreateBorderau(id:string) {
-
+        this.borderauService.PostData(id).subscribe(
+            data => {
+                this.proformalisto = this.proformalist = this.proformalist.map(value => value.id === id ? {
+                    ...value,
+                    adopted: true
+                } as Proforma : value);
+                console.log(data);
+                this.messageService.add({severity: 'success', summary: 'Success', detail: 'Borderau creer avec success'});
+            },
+            error => {
+                console.log(error);
+                this.messageService.add({severity: 'error', summary: 'Error', detail: 'Borderau non creer'});
+            }
+        );
     }
 
     deleteproforma(numero: string) {
@@ -133,7 +146,5 @@ export class ProformaComponent implements OnInit {
     showEditDialog(id:string) {
 
     }
-
-    protected readonly data = data;
 
 }
