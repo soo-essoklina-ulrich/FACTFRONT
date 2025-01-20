@@ -10,10 +10,9 @@ import {Proforma} from "../../../models/dossier/Proforma";
 import {ProformaService} from "../../../services/dossier/proforma.service";
 import {MessageService} from "primeng/api";
 import {Tag} from "primeng/tag";
-import {FormGroup} from "@angular/forms";
+import {FormsModule} from "@angular/forms";
 import {Dialog} from "primeng/dialog";
 import {ProfomaFormComponent} from "../../../layout/component/profoma-form/profoma-form.component";
-import {data} from "autoprefixer";
 import {BorderauService} from "../../../services/dossier/borderau.service";
 
 @Component({
@@ -28,7 +27,8 @@ import {BorderauService} from "../../../services/dossier/borderau.service";
         Tooltip,
         Tag,
         Dialog,
-        ProfomaFormComponent
+        ProfomaFormComponent,
+        FormsModule
     ],
     templateUrl: './proforma.component.html',
     styleUrl: './proforma.component.scss',
@@ -46,6 +46,7 @@ export class ProformaComponent implements OnInit {
     visibleaddmoalproforma: boolean = false;
 
     profomasave!: Proforma;
+    private oldrefernce!: string;
 
 
 
@@ -145,6 +146,28 @@ export class ProformaComponent implements OnInit {
 
     showEditDialog(id:string) {
 
+    }
+
+    updaterefrence(id:string,newreference: string) {
+
+        if (newreference === this.oldrefernce) {
+            return;
+        }
+
+        this.ProformaService.updatereference(id, newreference).subscribe(
+            data => {
+                this.messageService.add({severity: 'success', summary: 'Referncer mis a jour', detail: 'Reference modifier avec success'});
+            },
+            error => {
+                console.log(error);
+
+                this.messageService.add({severity: 'error', summary: 'Error', detail: 'Reference non modifier'});
+            }
+        );
+    }
+
+    caputeroldreference(reference: string) {
+        this.oldrefernce = reference
     }
 
 }

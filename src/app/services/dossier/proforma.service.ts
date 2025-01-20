@@ -49,8 +49,8 @@ export class ProformaService implements Crud {
         return this.http.get<Proforma>(this.url + `/${numero}`);
     }
 
-    updatereference(refrence: string): Observable<string> {
-        return this.http.put<string>(this.url + `/${refrence}`, null);
+    updatereference(id: string, newreference:string): Observable<void> {
+        return this.http.get<void>(this.url + `/reference/${id}?ref=${newreference}` );
     }
 
     Updatedata(id: string, article_quantite:Article_QuantiteSave[]): Observable<Proforma> {
