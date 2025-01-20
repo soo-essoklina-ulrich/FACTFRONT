@@ -3,7 +3,7 @@ import {environment} from "../../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {Crud} from "../_interface/Crud";
 import { Observable } from 'rxjs';
-import {Proforma} from "../../models/dossier/Proforma";
+import {Proforma, ProformaSave} from "../../models/dossier/Proforma";
 import {FormBuilder, Validators} from "@angular/forms";
 import {Article_QuantiteSave} from "../../models/dossier/Article_Quantite";
 
@@ -34,7 +34,7 @@ export class ProformaService implements Crud {
             prix_article: [0, Validators.required],
         });
     }
-    PostData(adta: any): Observable<Proforma> {
+    PostData(adta: ProformaSave): Observable<Proforma> {
       return  this.http.post<Proforma>(this.url, adta);
     }
     getAll(): Observable<Proforma[]> {
