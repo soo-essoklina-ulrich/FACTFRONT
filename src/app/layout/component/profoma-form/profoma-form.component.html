@@ -1,0 +1,113 @@
+<p-toast/>
+<div class="card">
+    <form [formGroup]="formproforma" (ngSubmit)="SubmitData()" class="gap-6 w-full sm:w-auto">
+        <label for="reference" class="block font-semibold mb-2">Reference</label>
+        <input type="text" pInputText formControlName="reference" id="reference" class="w-full"/>
+        <div class="flex flex-col sm:flex-row sm:items-center gap-6 mt-2">
+            <div class="flex-auto">
+                <label for="client" class="block font-semibold mb-2">Client</label>
+                <p-select [options]="clients" formControlName="client_id" optionValue="id" optionLabel="nom"
+                          id="client" class="w-full" [disabled]="projetorclientchoix" />
+
+            </div>
+            <div class="flex-auto">
+                <label for="projet" class="block font-semibold mb-2">Projet</label>
+                <p-select [options]="projets" formControlName="projet_id" optionValue="id" optionLabel="projet_type"
+                          id="projet" class="w-full" [disabled]="!projetorclientchoix"/>
+            </div>
+
+        </div>
+<div class="justify-end items-end flex flex-col">
+    <label for="checkme" class="block font-semibold mt-2 mb-1 ">Projet ou Client</label>
+    <p-toggleswitch id="checkme" class="mt-2"  [ngModelOptions]="{standalone: true}" [(ngModel)]="projet" (click)="projetorclient()"/>
+
+</div>
+
+
+        <p-button type="button" label="Ajouter un article" (onClick)="showDialogArticle_quantite()"
+                  class="w-full self-center mt-4 flex justify-center"/>
+
+        <p-button type="submit" label="Enregistrer" class="w-full self-center mt-4 flex justify-end"/>
+
+    </form>
+</div>
+
+<p-dialog
+    header="Ajouter un article"
+    [(visible)]="visibladdarticle_quantire"
+    [style]="{width: '50vw'}"
+    [modal]="true"
+    [resizable]="false"
+    [baseZIndex]="10000"
+>
+
+    <form [formGroup]="formarticle_quantite" (ngSubmit)="CloseArticleQtModal()">
+        <div class="grid grid-cols-2 gap-6  sm:w-auto">
+            <div class="card">
+                <div class="flex items-center justify-center h-full flex-col">
+                    <div class="gap-6 grid-cols-1 grid w-full">
+                        <div>
+                            <label for="article" class="block font-semibold mb-2">Article</label>
+                            <p-select [options]="articles" formControlName="article_id"
+                                      optionLabel="libelle" id="article" class="w-full" />
+                        </div>
+                        <div>
+                            <label for="qt" class="block font-semibold mb-2">Quantite</label>
+                            <p-input-number id="qt" formControlName="quantite" class="w-full"/>
+                        </div>
+                        <div>
+                            <label for="prix" class="block font-semibold mb-2">Prix</label>
+                            <p-input-number id="prix" currency="XAF" mode="currency" formControlName="prix_article"
+                                            class="w-full"/>
+                        </div>
+
+                        <div>
+                            <div class="grid grid-cols-2">
+                                <div class="float-left">
+                                    <p-button severity="success" class="float-left" label="ok" type="submit"
+                                              icon="pi pi-fw pi-check"/>
+                                </div>
+                                <div class="float-right">
+                                    <p-button severity="info" class="float-right justify-end items-end" type="button"
+                                              icon="pi pi-fw pi-plus" [disabled]="formarticle_quantite.invalid"
+                                              (click)="addarticleqttotableshow(); AddArticle();"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+
+            <div class="card">
+                <p-table
+                    [value]="article_quantiteshow">
+                    <ng-template #header>
+                        <tr>
+                            <th>Article</th>
+                            <th>Qt.</th>
+                            <th>Prix</th>
+                            <th></th>
+                        </tr>
+                    </ng-template>
+                    <ng-template #body let-data>
+                        <tr>
+                            <td>{{ data.article }}</td>
+                            <td>{{ data.qt }}</td>
+                            <td>{{ data.prix }}</td>
+                            <td>
+                                <i pTooltip="retire cette article" tooltipPosition="top" class="pi pi-fw pi-minus" (click)="removeArtQttoList(data.article)"></i>
+                            </td>
+                        </tr>
+                    </ng-template>
+
+                </p-table>
+            </div>
+
+
+        </div>
+    </form>
+
+</p-dialog>
