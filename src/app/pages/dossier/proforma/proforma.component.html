@@ -59,7 +59,24 @@
             <ng-template #body let-proforma let-index="rowIndex">
                 <tr>
                     <td>{{ index + 1 }}</td>
-                    <td>{{ proforma.reference }}</td>
+                    <td [pEditableColumn]="proforma.reference" pEditableColumnField="reference">
+                        <p-cellEditor>
+                            <ng-template #input>
+                                <input
+                                    pInputText
+                                    type="text"
+                                    [(ngModel)]="proforma.reference"
+                                    required
+                                    (blur)="updaterefrence(proforma.id,proforma.reference)"
+                                    (focus)="caputeroldreference(proforma.reference)"
+                                />
+                            </ng-template>
+                            <ng-template #output>
+                                {{ proforma.reference }}
+                            </ng-template>
+                        </p-cellEditor>
+
+                    </td>
                     <td>{{ proforma.numero }}</td>
                     <td>{{ proforma.total_ht }}</td>
                     <td>{{ proforma.total_tva }}</td>
@@ -108,5 +125,5 @@
     [baseZIndex]="10000"
     styleClass="w-1/2"
 >
-<app-profoma-form (proforma)="addProformaTolist($event)" />
+    <app-profoma-form (proforma)="addProformaTolist($event)"/>
 </p-dialog>
