@@ -1,0 +1,112 @@
+<p-toast/>
+<div class="card">
+    @if (loading) {
+        <app-loader/>
+    } @else {
+        <p-table
+
+            [value]="proformalist"
+            [rows]="10"
+            [rowsPerPageOptions]="[10, 25, 50]"
+            [paginator]="true"
+            stripedRows
+            [tableStyle]="{'min-width': '50rem'}"
+        >
+            <ng-template #caption>
+                <div class="flex justify-between items-center mb-3">
+
+                    <input
+                        pInputText
+                        type="text"
+                        (input)="filterProforma($event)"
+                        placeholder="Recherche par Numero"/>
+
+                    <div class="flex justify-around items-center ">
+                        <p-button
+                            class="mx-1"
+                            pTooltip="Ajouter un Proforma"
+                            tooltipPosition="top"
+                            icon="fa-solid fa-plus"
+                            (click)="showDialog()"
+                        />
+                        <p-button
+                            class="mx-1"
+                            pTooltip="Recharge les proformas"
+                            tooltipPosition="top"
+                            icon="fa-solid fa-refresh"
+                            (click)="getAllProforma()"
+                        />
+
+                    </div>
+                </div>
+            </ng-template>
+            <ng-template #header>
+                <tr>
+                    <th>#</th>
+                    <th>Reference</th>
+                    <th>Numero</th>
+                    <th>total_ht</th>
+                    <th>total_tva</th>
+                    <th>total_ttc</th>
+                    <th>Client</th>
+                    <th>Adopter ?</th>
+                    <th>Signe par -</th>
+                    <th>Creer le</th>
+                    <th>Action</th>
+                </tr>
+
+            </ng-template>
+            <ng-template #body let-proforma let-index="rowIndex">
+                <tr>
+                    <td>{{ index + 1 }}</td>
+                    <td>{{ proforma.reference }}</td>
+                    <td>{{ proforma.numero }}</td>
+                    <td>{{ proforma.total_ht }}</td>
+                    <td>{{ proforma.total_tva }}</td>
+                    <td>{{ proforma.total_ttc }}</td>
+                    <td>{{ proforma.client }}</td>
+                    <td>
+                        <p-tag [severity]="getseverity(proforma.adopted)" [value]="proforma.adopted?'Oui':'Nom'"/>
+                    </td>
+                    <td>{{ proforma.signby }}</td>
+                    <td>{{ proforma.date|date }}</td>
+                    <td>
+                        <div class="flex justify-around items-center ">
+                            <p-button
+
+                                pTooltip="Modifier"
+                                tooltipPosition="top"
+                                icon="fa-solid fa-edit"
+                                (click)="showEditDialog(proforma.id)"
+                            />
+                            <p-button
+                                class="mx-1"
+                                pTooltip="Supprimer"
+                                tooltipPosition="top"
+                                icon="fa-solid fa-trash"
+                                (click)="deleteproforma(proforma.numero)"
+                            />
+                            <p-button
+
+                                pTooltip="Adopter et Creer un Borderau"
+                                tooltipPosition="top"
+                                icon="fa-solid fa-file"
+                                (click)="adopedAndCreateBorderau(proforma.id)"
+                            />
+                        </div>
+                </tr>
+            </ng-template>
+        </p-table>
+    }
+</div>
+
+<p-dialog
+    [header]="dialogheader"
+    [(visible)]="visibleaddmoalproforma"
+    [modal]="false"
+    [resizable]="true"
+    [baseZIndex]="10000"
+    styleClass="w-1/2"
+>
+<app-profoma-form (proforma)="addProformaTolist($event)" />
+</p-dialog>
