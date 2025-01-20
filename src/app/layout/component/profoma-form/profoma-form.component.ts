@@ -12,16 +12,13 @@ import {Client} from "../../../models/Client";
 import {Projet} from "../../../models/Projet";
 import {ProjetService} from "../../../services/projet/projet.service";
 import {Button} from "primeng/button";
-
 import {ArticleService} from "../../../services/article/article.service";
 import {Article} from "../../../models/Article";
 import {InputNumber} from "primeng/inputnumber";
 import {TableModule} from "primeng/table";
 import {Tooltip} from "primeng/tooltip";
 import {Proforma} from "../../../models/dossier/Proforma";
-import {Checkbox} from "primeng/checkbox";
 import {ToggleSwitch} from "primeng/toggleswitch";
-import {RadioButton} from "primeng/radiobutton";
 
 @Component({
     selector: 'app-profoma-form',
@@ -45,37 +42,34 @@ import {RadioButton} from "primeng/radiobutton";
     ]
 })
 export class ProfomaFormComponent implements OnInit {
-@Output('proforma') proforma = new EventEmitter<Proforma|null>();
+    @Output('proforma') proforma = new EventEmitter<Proforma | null>();
     // formulaire
     formproforma!: FormGroup;
     formarticle_quantite!: FormGroup;
     visibladdarticle_quantire: boolean = false;
 
-    projet:boolean = true;
-    client:boolean = false;
-    protected projetorclientchoix: boolean =false;
-
+    projet: boolean = true;
+    client: boolean = false;
     article_quantite: Article_QuantiteSave[] = [];
     article_quantiteshow: {
-        article:string,
-        qt:number,
-        prix:number
+        article: string,
+        qt: number,
+        prix: number
     }[] = [];
-
     // liste des clients
     clients: Client[] = [];
     // liste des projets
     projets: Projet[] = [];
     // liste des articles
     articles: Article[] = [];
-
+    protected projetorclientchoix: boolean = false;
 
     constructor(
         private profromaService: ProformaService,
         private messageService: MessageService,
         private cleintService: ClientService,
         private projetService: ProjetService,
-        private articleservice:ArticleService
+        private articleservice: ArticleService
     ) {
     }
 
@@ -112,7 +106,7 @@ export class ProfomaFormComponent implements OnInit {
             }
         );
         this.articleservice.getArticles().subscribe(
-            data=>{
+            data => {
                 this.articles = data
             },
             error => {
@@ -136,19 +130,14 @@ export class ProfomaFormComponent implements OnInit {
     }
 
     SubmitData() {
-        console.log(this.formproforma.value);
         this.profromaService.PostData(this.formproforma.value).subscribe(
-            data=>{
+            data => {
                 this.proforma.emit(data)
-                this.messageService.add(
-                    {
-                        severity: 'success',
-                        summary: 'Succes',
-                        detail: 'Proforma Creer'
-                    }
-                )
+                this.formproforma.reset();
+                this.article_quantite = [];
+                this.article_quantiteshow = [];
             },
-            error=>{
+            error => {
                 console.log(error)
                 this.messageService.add(
                     {
@@ -186,13 +175,11 @@ export class ProfomaFormComponent implements OnInit {
     }
 
     removeArtQttoList(article: string) {
-        this.article_quantiteshow = this.article_quantiteshow.filter(a=>a.article!=article)
+        this.article_quantiteshow = this.article_quantiteshow.filter(a => a.article != article);
     }
 
     // choix entre client et projet
     projetorclient() {
-
         this.projetorclientchoix = !this.projetorclientchoix;
-
     };
 }
