@@ -7,5 +7,5 @@ export interface Article_Quantite{
 export interface Article_QuantiteSave{
     article_id:string,
     quantite: number,
-    prix_article:string
+    prix_article:number
 }
