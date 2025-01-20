@@ -44,6 +44,9 @@ export class ProformaService implements Crud {
     getAllNumeroList(): Observable<string[]> {
         return this.http.get<string[]>(this.url + '/numero');
     }
+    getAllnotAdopted(): Observable<Proforma[]> {
+        return this.http.get<Proforma[]>(this.url + '/not-adoped');
+    }
 
     getbyNumero(numero: string): Observable<Proforma> {
         return this.http.get<Proforma>(this.url + `/${numero}`);
