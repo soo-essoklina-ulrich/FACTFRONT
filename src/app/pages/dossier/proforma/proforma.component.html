@@ -90,13 +90,14 @@
                     <td>
                         <div class="flex justify-around items-center ">
                             <p-button
-
+                                severity="info"
                                 pTooltip="Modifier"
                                 tooltipPosition="top"
                                 icon="fa-solid fa-edit"
                                 (click)="showEditDialog(proforma.id)"
                             />
                             <p-button
+                                severity="danger"
                                 class="mx-1"
                                 pTooltip="Supprimer"
                                 tooltipPosition="top"
@@ -104,7 +105,7 @@
                                 (click)="deleteproforma(proforma.numero)"
                             />
                             <p-button
-
+                                severity="primary"
                                 pTooltip="Adopter et Creer un Borderau"
                                 tooltipPosition="top"
                                 icon="fa-solid fa-file"

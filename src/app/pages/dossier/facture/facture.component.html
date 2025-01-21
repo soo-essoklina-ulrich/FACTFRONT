@@ -5,7 +5,7 @@
     } @else {
         <p-table
 
-            [value]="borderaulist"
+            [value]="facturelist"
             [rows]="10"
             [rowsPerPageOptions]="[10, 25, 50]"
             [paginator]="true"
@@ -18,13 +18,13 @@
                     <input
                         pInputText
                         type="text"
-                        (input)="filterBorderau($event)"
+                        (input)="filterFacture($event)"
                         placeholder="Recherche par Numero"/>
 
                     <div class="flex justify-around items-center ">
                         <p-button
                             class="mx-1"
-                            pTooltip="Ajouter un Borderau"
+                            pTooltip="Ajouter un Facture"
                             tooltipPosition="top"
                             icon="fa-solid fa-plus"
                             (click)="showDialog()"
@@ -34,7 +34,7 @@
                             pTooltip="Recharge les borderaus"
                             tooltipPosition="top"
                             icon="fa-solid fa-refresh"
-                            (click)="getAllBorderau()"
+                            (click)="getAllFacture()"
                         />
 
                     </div>
@@ -50,6 +50,7 @@
                     <th>total_ttc</th>
                     <th>Client</th>
                     <th>Creer le</th>
+                    <th>Signer par -</th>
                     <th>Action</th>
                 </tr>
 
@@ -64,6 +65,7 @@
                     <td>{{ borderau.total_ttc }}</td>
                     <td>{{ borderau.client }}</td>
                     <td>{{ borderau.date|date }}</td>
+                    <td>{{ borderau.signby }}</td>
                     <td>
                         <div class="flex justify-around items-center ">
                             <!-- <p-button
@@ -79,14 +81,14 @@
                                 pTooltip="Supprimer"
                                 tooltipPosition="top"
                                 icon="fa-solid fa-trash"
-                                (click)="deleteborderau(borderau.id)"
+                                (click)="deletefacture(borderau.id)"
                             />
                             <p-button
                                 severity="primary"
-                                pTooltip="Creer la Facture"
+                                pTooltip="Telechager le PDF"
                                 tooltipPosition="top"
-                                icon="fa-solid fa-file"
-                                (click)="CreateFacture(borderau.id)"
+                                icon="fa-solid fa-download"
+                                (click)="DownloadPDF(borderau.id)"
                             />
                         </div>
                 </tr>
@@ -94,22 +96,3 @@
         </p-table>
     }
 </div>
-
-<p-dialog
-    [(visible)]="visibleaddmoal"
-    [header]="header"
-    [modal]="false"
-    [resizable]="true"
-    [style]="{width: '35vw', height: '30vw'}"
->
-    <div class="card">
-        <p-select optionLabel="numero" [editable]="true" [(ngModel)]="proforma_selected_id" optionValue="id"
-                  [options]="proformalist" placeholder="Selectionner un proforma" class="w-full"></p-select>
-
-    </div>
-
-    <div class="flex justify-around items-center mt-3">
-        <p-button label="Annuler" severity="info" (click)="visibleaddmoal = false"></p-button>
-        <p-button label="Ajouter" severity="success" (click)="createborderau()"></p-button>
-    </div>
-</p-dialog>
