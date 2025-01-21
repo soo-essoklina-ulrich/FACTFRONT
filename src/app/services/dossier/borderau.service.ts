@@ -22,6 +22,9 @@ export class BorderauService implements Crud {
     getAll(): Observable<Borderau[]> {
         return this.http.get<Borderau[]>(`${this.url}`);
     }
+    getAllWhoNoUseTocreateFacture(): Observable<Borderau[]> {
+        return this.http.get<Borderau[]>(`${this.url}/not-use`);
+    }
     Updatedata(id: string, data: any): Observable<any> {
         throw new Error('Method not implemented.');
     }
