@@ -70,6 +70,7 @@
                     <td>{{ projet.update_at|date }}</td>
                     <td>
                         <p-button
+                            severity="secondary"
                             class="mx-1"
                             pTooltip="Modifier"
                             tooltipPosition="top"
@@ -77,6 +78,7 @@
                             (click)="showEditDialog(projet.id)"
                         />
                         <p-button
+                            severity="danger"
                             class="mx-1"
                             pTooltip="Supprimer"
                             tooltipPosition="top"

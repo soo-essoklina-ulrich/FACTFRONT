@@ -43,6 +43,7 @@
             <ng-template #header>
                 <tr>
                     <th>#</th>
+                    <th></th>
                     <th>Reference</th>
                     <th>Numero</th>
                     <th>total_ht</th>
@@ -59,6 +60,17 @@
             <ng-template #body let-proforma let-index="rowIndex">
                 <tr>
                     <td>{{ index + 1 }}</td>
+                    <td>
+                        <ng-container *ngIf="!proforma.adopted">
+                            <p-button
+                                severity="primary"
+                                pTooltip="Adopter et Creer un Borderau"
+                                tooltipPosition="top"
+                                icon="fa-solid fa-file"
+                                (click)="adopedAndCreateBorderau(proforma.id)"
+                            />
+                        </ng-container>
+                    </td>
                     <td [pEditableColumn]="proforma.reference" pEditableColumnField="reference">
                         <p-cellEditor>
                             <ng-template #input>
@@ -90,7 +102,7 @@
                     <td>
                         <div class="flex justify-around items-center ">
                             <p-button
-                                severity="info"
+                                severity="secondary"
                                 pTooltip="Modifier"
                                 tooltipPosition="top"
                                 icon="fa-solid fa-edit"
@@ -104,13 +116,8 @@
                                 icon="fa-solid fa-trash"
                                 (click)="deleteproforma(proforma.numero)"
                             />
-                            <p-button
-                                severity="primary"
-                                pTooltip="Adopter et Creer un Borderau"
-                                tooltipPosition="top"
-                                icon="fa-solid fa-file"
-                                (click)="adopedAndCreateBorderau(proforma.id)"
-                            />
+
+
                         </div>
                 </tr>
             </ng-template>

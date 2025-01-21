@@ -9,5 +9,6 @@ export interface Borderau {
     total_ttc: number,
     total_tva: number,
     client: string,
+    adopte:boolean,
     date: Date
 }

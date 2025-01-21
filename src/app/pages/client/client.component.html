@@ -68,16 +68,20 @@
                     </td>
                     <td>
                         <div class=" flex items-center gap-3 justify-center">
-                            <i
-                                class="pi pi-pencil pi-fw cursor-pointer" style="color: blue"
+                            <p-button
+                                severity="secondary"
+                               pTooltip="Update {{client.nom}}"
+                               tooltipPosition="top"
+                               icon="fa-solid fa-edit"
                                 (click)="editClient(client.id)"
-                            ></i>
-                            <i
+                            ></p-button>
+                            <p-button
+                                severity="danger"
                                 pTooltip="supprimer {{client.nom}}"
                                 tooltipPosition="top"
-                                class="fa-solid fa-trash cursor-pointer" style="color: red"
+                                icon="pi pi-fw pi-trash "
                                 (click)="deleteClient(client.id)"
-                            ></i>
+                            ></p-button>
                         </div>
                     </td>
                 </tr>

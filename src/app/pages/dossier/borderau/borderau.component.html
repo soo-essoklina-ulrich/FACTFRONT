@@ -43,6 +43,7 @@
             <ng-template #header>
                 <tr>
                     <th>#</th>
+                    <th></th>
                     <th>Reference</th>
                     <th>Numero</th>
                     <th>total_ht</th>
@@ -57,6 +58,17 @@
             <ng-template #body let-borderau let-index="rowIndex">
                 <tr>
                     <td>{{ index + 1 }}</td>
+                    <td>
+                        <ng-container *ngIf="!borderau.adopte">
+                            <p-button
+                                severity="primary"
+                                pTooltip="Creer la Facture"
+                                tooltipPosition="top"
+                                icon="fa-solid fa-file"
+                                (click)="CreateFacture(borderau.id)"
+                            />
+                        </ng-container>
+                    </td>
                     <td>{{ borderau.reference }}</td>
                     <td>{{ borderau.numero }}</td>
                     <td>{{ borderau.total_ht }}</td>
@@ -80,13 +92,6 @@
                                 tooltipPosition="top"
                                 icon="fa-solid fa-trash"
                                 (click)="deleteborderau(borderau.id)"
-                            />
-                            <p-button
-                                severity="primary"
-                                pTooltip="Creer la Facture"
-                                tooltipPosition="top"
-                                icon="fa-solid fa-file"
-                                (click)="CreateFacture(borderau.id)"
                             />
                         </div>
                 </tr>

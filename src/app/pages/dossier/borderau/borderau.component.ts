@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Button} from "primeng/button";
-import {DatePipe} from "@angular/common";
+import {DatePipe, NgIf} from "@angular/common";
 import {InputText} from "primeng/inputtext";
 import {LoaderComponent} from "../../../layout/component/loader/loader.component";
 import {TableModule} from "primeng/table";
@@ -28,7 +28,8 @@ import {FormsModule} from "@angular/forms";
         Tooltip,
         Dialog,
         Select,
-        FormsModule
+        FormsModule,
+        NgIf
     ],
     templateUrl: './borderau.component.html',
     styleUrl: './borderau.component.scss',
