@@ -53,6 +53,7 @@
                     <th>Adopter ?</th>
                     <th>Signe par -</th>
                     <th>Creer le</th>
+                    <th>Report</th>
                     <th>Action</th>
                 </tr>
 
@@ -99,6 +100,21 @@
                     </td>
                     <td>{{ proforma.signby }}</td>
                     <td>{{ proforma.date|date }}</td>
+                    <td>
+                        <div class="flex justify-around items-center ">
+                            <p-button
+                                pTooltip="Genere le Document"
+                                tooltipPosition="top"
+                                icon="pi pi-fw pi-file"
+                                (click)="generate(proforma.numero)"
+                            /><p-button
+                                pTooltip="Telechager le PDF"
+                                tooltipPosition="top"
+                                icon="pi pi-fw pi-download"
+                                (click)="download(proforma.numero)"
+                            />
+                        </div>
+                    </td>
                     <td>
                         <div class="flex justify-around items-center ">
                             <p-button

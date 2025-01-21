@@ -51,6 +51,7 @@
                     <th>total_ttc</th>
                     <th>Client</th>
                     <th>Creer le</th>
+                    <th>Report</th>
                     <th>Action</th>
                 </tr>
 
@@ -76,6 +77,23 @@
                     <td>{{ borderau.total_ttc }}</td>
                     <td>{{ borderau.client }}</td>
                     <td>{{ borderau.date|date }}</td>
+                    <td>
+                    <td>
+                        <div class="flex justify-around items-center ">
+                            <p-button
+                                pTooltip="Genere le Document"
+                                tooltipPosition="top"
+                                icon="pi pi-fw pi-file"
+                                (click)="generate(borderau.numero)"
+                            /><p-button
+                            pTooltip="Telechager le PDF"
+                            tooltipPosition="top"
+                            icon="pi pi-fw pi-download"
+                            (click)="download(borderau.numero)"
+                        />
+                        </div>
+
+                    </td>
                     <td>
                         <div class="flex justify-around items-center ">
                             <!-- <p-button

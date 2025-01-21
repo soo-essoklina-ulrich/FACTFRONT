@@ -31,7 +31,7 @@
                         />
                         <p-button
                             class="mx-1"
-                            pTooltip="Recharge les borderaus"
+                            pTooltip="Recharge les Factures"
                             tooltipPosition="top"
                             icon="fa-solid fa-refresh"
                             (click)="getAllFacture()"
@@ -51,21 +51,35 @@
                     <th>Client</th>
                     <th>Creer le</th>
                     <th>Signer par -</th>
+                    <th>Report</th>
                     <th>Action</th>
                 </tr>
 
             </ng-template>
-            <ng-template #body let-borderau let-index="rowIndex">
+            <ng-template #body let-facture let-index="rowIndex">
                 <tr>
                     <td>{{ index + 1 }}</td>
-                    <td>{{ borderau.reference }}</td>
-                    <td>{{ borderau.numero }}</td>
-                    <td>{{ borderau.total_ht }}</td>
-                    <td>{{ borderau.total_tva }}</td>
-                    <td>{{ borderau.total_ttc }}</td>
-                    <td>{{ borderau.client }}</td>
-                    <td>{{ borderau.date|date }}</td>
-                    <td>{{ borderau.signby }}</td>
+                    <td>{{ facture.reference }}</td>
+                    <td>{{ facture.numero }}</td>
+                    <td>{{ facture.total_ht }}</td>
+                    <td>{{ facture.total_tva }}</td>
+                    <td>{{ facture.total_ttc }}</td>
+                    <td>{{ facture.client }}</td>
+                    <td>{{ facture.date|date }}</td>
+                    <td>{{ facture.signby }}</td>
+                    <td>
+
+                        <div class="flex justify-around items-center ">
+                            <p-button
+                                pTooltip="Genere le Document"
+                                tooltipPosition="top"
+                                icon="pi pi-fw pi-file"
+                                (click)="generate(facture.numero)"
+                            />
+
+                        </div>
+
+                    </td>
                     <td>
                         <div class="flex justify-around items-center ">
                             <!-- <p-button
@@ -73,7 +87,7 @@
                                  pTooltip="Modifier"
                                  tooltipPosition="top"
                                  icon="fa-solid fa-edit"
-                                 (click)="showEditDialog(borderau.id)"
+                                 (click)="showEditDialog(facture.id)"
                              />-->
                             <p-button
                                 severity="danger"
@@ -81,14 +95,14 @@
                                 pTooltip="Supprimer"
                                 tooltipPosition="top"
                                 icon="fa-solid fa-trash"
-                                (click)="deletefacture(borderau.id)"
+                                (click)="deletefacture(facture.id)"
                             />
                             <p-button
                                 severity="primary"
                                 pTooltip="Telechager le PDF"
                                 tooltipPosition="top"
                                 icon="fa-solid fa-download"
-                                (click)="DownloadPDF(borderau.id)"
+                                (click)="download(facture.numero)"
                             />
                         </div>
                 </tr>

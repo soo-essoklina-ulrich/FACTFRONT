@@ -11,6 +11,7 @@ import {FactureService} from "../../../services/dossier/facture.service";
 import {BorderauService} from "../../../services/dossier/borderau.service";
 import {MessageService} from "primeng/api";
 import {Borderau} from "../../../models/dossier/Borderau";
+import {ReportService} from "../../../services/report/report.service";
 
 @Component({
     selector: 'app-facture',
@@ -41,7 +42,8 @@ export class FactureComponent implements OnInit {
     constructor(
         private FactureService: FactureService,
         private BorderauService: BorderauService,
-        private messageService: MessageService
+        private messageService: MessageService,
+        private reportService: ReportService
     ) {
     }
 
@@ -109,8 +111,51 @@ export class FactureComponent implements OnInit {
             }
         )
     }
+    generate(numero: string) {
+        setTimeout(
+            () => {
+                this.reportService.genereateReport(numero).subscribe(
+                    rep => {
+                        this.messageService.add({
+                            severity: 'info',
+                            summary: 'Report',
+                            detail: 'Generate Success'
+                        })
+                    },
+                    error => {
+                        this.messageService.add({
+                            severity: 'warn',
+                            summary: 'Report',
+                            detail: 'Nom Generate'
+                        })
+                    }
+                )
+            }, 2000
+        )
+    }
 
-    DownloadPDF(id: string) {
+    download(numero: string) {
+        setTimeout(
+            () => {
+                this.reportService.downloadReport(numero).subscribe(
+                    rep => {
+                        this.messageService.add({
+                            severity: 'info',
+                            summary: 'Report',
+                            detail: 'Download'
 
+                        })
+                    },
+                    error => {
+                        this.messageService.add({
+                            severity: 'warn',
+                            summary: 'Report',
+                            detail: 'Download Refuser'
+
+                        })
+                    }
+                )
+            }, 2000
+        )
     }
 }

@@ -14,6 +14,7 @@ import {FormsModule} from "@angular/forms";
 import {Dialog} from "primeng/dialog";
 import {ProfomaFormComponent} from "../../../layout/component/profoma-form/profoma-form.component";
 import {BorderauService} from "../../../services/dossier/borderau.service";
+import {ReportService} from "../../../services/report/report.service";
 
 @Component({
     selector: 'app-proforma',
@@ -50,12 +51,11 @@ export class ProformaComponent implements OnInit {
     private oldrefernce!: string;
 
 
-
-
     constructor(
         private ProformaService: ProformaService,
         private borderauService: BorderauService,
-        private messageService: MessageService
+        private messageService: MessageService,
+        private reportService: ReportService
     ) {
     }
 
@@ -65,10 +65,9 @@ export class ProformaComponent implements OnInit {
 
     filterProforma(event: Event) {
         const value = (event.target as HTMLInputElement).value;
-        if(value.length>0){
+        if (value.length > 0) {
             this.proformalist = this.proformalist.filter(value1 => value1.numero.toLowerCase().includes(value.toLowerCase()));
-        }
-        else {
+        } else {
             this.proformalist = this.proformalisto;
         }
     }
@@ -78,7 +77,7 @@ export class ProformaComponent implements OnInit {
         this.visibleaddmoalproforma = true;
     }
 
-    addProformaTolist(data: Proforma | null){
+    addProformaTolist(data: Proforma | null) {
         if (data) {
             this.proformalist.push(data)
             this.visibleaddmoalproforma = false;
@@ -99,7 +98,11 @@ export class ProformaComponent implements OnInit {
                 data => {
                     this.proformalisto = this.proformalist = data;
                     this.loading = false;
-                    this.messageService.add({severity: 'success', summary: 'Success', detail: 'Proforma recuperer avec success'});
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: 'Success',
+                        detail: 'Proforma recuperer avec success'
+                    });
                 },
                 error => {
                     console.log(error);
@@ -114,14 +117,18 @@ export class ProformaComponent implements OnInit {
         return adopded ? 'success' : 'secondary';
     }
 
-    adopedAndCreateBorderau(id:string) {
+    adopedAndCreateBorderau(id: string) {
         this.borderauService.PostData(id).subscribe(
             data => {
                 this.proformalisto = this.proformalist = this.proformalist.map(value => value.id === id ? {
                     ...value,
                     adopted: true
                 } as Proforma : value);
-                this.messageService.add({severity: 'success', summary: 'Success', detail: 'Borderau creer avec success'});
+                this.messageService.add({
+                    severity: 'success',
+                    summary: 'Success',
+                    detail: 'Borderau creer avec success'
+                });
             },
             error => {
                 console.log(error);
@@ -135,7 +142,11 @@ export class ProformaComponent implements OnInit {
             data => {
                 console.log(data);
                 this.proformalisto = this.proformalisto.filter(value => value.numero !== numero);
-                this.messageService.add({severity: 'success', summary: 'Success', detail: 'Proforma supprimer avec success'});
+                this.messageService.add({
+                    severity: 'success',
+                    summary: 'Success',
+                    detail: 'Proforma supprimer avec success'
+                });
             },
             error => {
                 this.messageService.add({severity: 'error', summary: 'Error', detail: 'Proforma non supprimer'});
@@ -144,11 +155,11 @@ export class ProformaComponent implements OnInit {
         );
     }
 
-    showEditDialog(id:string) {
+    showEditDialog(id: string) {
 
     }
 
-    updaterefrence(id:string,newreference: string) {
+    updaterefrence(id: string, newreference: string) {
 
         if (newreference === this.oldrefernce) {
             return;
@@ -156,7 +167,11 @@ export class ProformaComponent implements OnInit {
 
         this.ProformaService.updatereference(id, newreference).subscribe(
             data => {
-                this.messageService.add({severity: 'success', summary: 'Referncer mis a jour', detail: 'Reference modifier avec success'});
+                this.messageService.add({
+                    severity: 'success',
+                    summary: 'Referncer mis a jour',
+                    detail: 'Reference modifier avec success'
+                });
             },
             error => {
                 console.log(error);
@@ -170,4 +185,51 @@ export class ProformaComponent implements OnInit {
         this.oldrefernce = reference
     }
 
+    generate(numero: string) {
+        setTimeout(
+            () => {
+                this.reportService.genereateReport(numero).subscribe(
+                    rep => {
+                        this.messageService.add({
+                            severity: 'info',
+                            summary: 'Report',
+                            detail: 'Generate Success'
+                        })
+                    },
+                    error => {
+                        this.messageService.add({
+                            severity: 'warn',
+                            summary: 'Report',
+                            detail: 'Nom Generate'
+                        })
+                    }
+                )
+            }, 2000
+        )
+    }
+
+    download(numero: string) {
+        setTimeout(
+            () => {
+                this.reportService.downloadReport(numero).subscribe(
+                    rep => {
+                        this.messageService.add({
+                            severity: 'info',
+                            summary: 'Report',
+                            detail: 'Download'
+
+                        })
+                    },
+                    error => {
+                        this.messageService.add({
+                            severity: 'warn',
+                            summary: 'Report',
+                            detail: 'Download Refuser'
+
+                        })
+                    }
+                )
+            }, 2000
+        )
+    }
 }
