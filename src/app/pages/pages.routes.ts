@@ -7,6 +7,7 @@ import {ProjetComponent} from "./projet/projet.component";
 import {ProformaComponent} from "./dossier/proforma/proforma.component";
 import {BorderauComponent} from "./dossier/borderau/borderau.component";
 import {FactureComponent} from "./dossier/facture/facture.component";
+import {ProfileComponent} from "./profile/profile.component";
 
 
 export default [
@@ -20,5 +21,6 @@ export default [
     { path: 'facture', component:FactureComponent, title: 'Facture' },
     { path: 'client', component:ClientComponent, title: 'Client' },
     { path: 'article', component:ArticleComponent, title: 'Article' },
+    { path: 'profile', component:ProfileComponent, title: 'Profile' },
     { path: '**', redirectTo: '/notfound' }
 ] as Routes;

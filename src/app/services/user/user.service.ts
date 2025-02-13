@@ -1,14 +1,17 @@
 import {Injectable} from '@angular/core';
 import {environment} from '../../../environments/environment';
 import {HttpClient} from '@angular/common/http';
-import {FormBuilder, Validators} from '@angular/forms';
+import {AbstractControl, FormBuilder, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
 import {UtilisateurDto} from '../../models/Utilisateur';
+import {BehaviorSubject, tap} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
   private url = environment.api_ulr + `user`
+    private dataSubject = new BehaviorSubject<UtilisateurDto|null>(null);
+    public data$ = this.dataSubject.asObservable();
 
   constructor(
     private http: HttpClient,
@@ -38,9 +41,35 @@ export class UserService {
     })
   }
 
+  createformchangepassword(){
+      return this.fb.group({
+            password: ['', Validators.required],
+            newpassword: ['', Validators.required, Validators.minLength(6)],
+            confirmpassword: ['', Validators.required]
+      }, {validator: this.passwordMatchValidator})
+  }
+
+
+    // Validateur personnalisé pour vérifier que newpassword et confirmpassword correspondent
+    passwordMatchValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+        const newPassword = control.get('newpassword')?.value;
+        const confirmPassword = control.get('confirmpassword')?.value;
+
+        // Si les deux champs sont remplis et ne correspondent pas, retourne une erreur
+        if (newPassword && confirmPassword && newPassword !== confirmPassword) {
+            return { passwordMismatch: true };
+        }
+        return null; // Pas d'erreur
+    };
 
   getAllorOnebyEmail(email?: string) {
     return this.http.get<UtilisateurDto[]>(this.url + (email ? `/${email}` : ''))
+  }
+
+  getUserconnected() {
+    return this.http.get<UtilisateurDto>(this.url + `/me`).pipe(
+        tap(data => this.dataSubject.next(data))
+    ).subscribe();
   }
 
   create(user: UtilisateurDto) {
@@ -57,6 +86,14 @@ export class UserService {
 
   activateorDesactivate(id: string) {
     return this.http.get<boolean>(this.url + `/${id}/activate`)
+  }
 
+  changepassword(
+      value:{
+          oldPassword: string,
+          newPassword: string
+      }
+  ){
+     return this.http.post<null>(this.url + `/change-password`, value)
   }
 }
