@@ -44,9 +44,9 @@ export class UserService {
   createformchangepassword(){
       return this.fb.group({
             password: ['', Validators.required],
-            newpassword: ['', Validators.required, Validators.minLength(6)],
+            newpassword: ['', Validators.required],
             confirmpassword: ['', Validators.required]
-      }, {validator: this.passwordMatchValidator})
+      })
   }
 
 
