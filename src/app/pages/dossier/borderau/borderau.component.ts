@@ -146,50 +146,16 @@ export class BorderauComponent implements OnInit{
 
 
     generate(numero: string) {
+        this.reportService.genereateReport(numero);
         setTimeout(
             () => {
-                this.reportService.genereateReport(numero).subscribe(
-                    rep => {
-                        this.messageService.add({
-                            severity: 'info',
-                            summary: 'Report',
-                            detail: 'Generate Success'
-                        })
-                    },
-                    error => {
-                        this.messageService.add({
-                            severity: 'warn',
-                            summary: 'Report',
-                            detail: 'Nom Generate'
-                        })
+                this.reportService.toastMessage.subscribe(
+                    (data) => {
+                        this.messageService.add(data);
                     }
                 )
             }, 2000
-        )
+        );
     }
 
-    download(numero: string) {
-        setTimeout(
-            () => {
-                this.reportService.downloadReport(numero).subscribe(
-                    rep => {
-                        this.messageService.add({
-                            severity: 'info',
-                            summary: 'Report',
-                            detail: 'Download'
-
-                        })
-                    },
-                    error => {
-                        this.messageService.add({
-                            severity: 'warn',
-                            summary: 'Report',
-                            detail: 'Download Refuser'
-
-                        })
-                    }
-                )
-            }, 2000
-        )
-    }
 }

@@ -1,20 +1,20 @@
-import {Component, OnInit} from '@angular/core';
-import {Button} from "primeng/button";
-import {DatePipe, NgIf} from "@angular/common";
-import {InputText} from "primeng/inputtext";
-import {LoaderComponent} from "../../../layout/component/loader/loader.component";
-import {TableModule} from "primeng/table";
-import {Toast} from "primeng/toast";
-import {Tooltip} from "primeng/tooltip";
-import {Proforma} from "../../../models/dossier/Proforma";
-import {ProformaService} from "../../../services/dossier/proforma.service";
-import {MessageService} from "primeng/api";
-import {Tag} from "primeng/tag";
-import {FormsModule} from "@angular/forms";
-import {Dialog} from "primeng/dialog";
-import {ProfomaFormComponent} from "../../../layout/component/profoma-form/profoma-form.component";
-import {BorderauService} from "../../../services/dossier/borderau.service";
-import {ReportService} from "../../../services/report/report.service";
+import { Component, OnInit } from '@angular/core';
+import { Button } from 'primeng/button';
+import { DatePipe, NgIf } from '@angular/common';
+import { InputText } from 'primeng/inputtext';
+import { LoaderComponent } from '../../../layout/component/loader/loader.component';
+import { TableModule } from 'primeng/table';
+import { Toast } from 'primeng/toast';
+import { Tooltip } from 'primeng/tooltip';
+import { Proforma } from '../../../models/dossier/Proforma';
+import { ProformaService } from '../../../services/dossier/proforma.service';
+import { MessageService } from 'primeng/api';
+import { Tag } from 'primeng/tag';
+import { FormsModule } from '@angular/forms';
+import { Dialog } from 'primeng/dialog';
+import { ProfomaFormComponent } from '../../../layout/component/profoma-form/profoma-form.component';
+import { BorderauService } from '../../../services/dossier/borderau.service';
+import { ReportService } from '../../../services/report/report.service';
 
 @Component({
     selector: 'app-proforma',
@@ -79,7 +79,7 @@ export class ProformaComponent implements OnInit {
 
     addProformaTolist(data: Proforma | null) {
         if (data) {
-            this.proformalist.push(data)
+            this.proformalist.push(data);
             this.visibleaddmoalproforma = false;
             this.messageService.add(
                 {
@@ -87,7 +87,7 @@ export class ProformaComponent implements OnInit {
                     summary: 'Succes',
                     detail: 'Proforma Creer'
                 }
-            )
+            );
         }
     }
 
@@ -106,7 +106,7 @@ export class ProformaComponent implements OnInit {
                 },
                 error => {
                     console.log(error);
-                    this.messageService.add({severity: 'error', summary: 'Error', detail: 'Proforma non recuperer'});
+                    this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Proforma non recuperer' });
                     this.loading = false;
                 }
             );
@@ -132,7 +132,7 @@ export class ProformaComponent implements OnInit {
             },
             error => {
                 console.log(error);
-                this.messageService.add({severity: 'error', summary: 'Error', detail: 'Borderau non creer'});
+                this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Borderau non creer' });
             }
         );
     }
@@ -149,7 +149,7 @@ export class ProformaComponent implements OnInit {
                 });
             },
             error => {
-                this.messageService.add({severity: 'error', summary: 'Error', detail: 'Proforma non supprimer'});
+                this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Proforma non supprimer' });
                 console.log(error);
             }
         );
@@ -176,60 +176,26 @@ export class ProformaComponent implements OnInit {
             error => {
                 console.log(error);
 
-                this.messageService.add({severity: 'error', summary: 'Error', detail: 'Reference non modifier'});
+                this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Reference non modifier' });
             }
         );
     }
 
     caputeroldreference(reference: string) {
-        this.oldrefernce = reference
+        this.oldrefernce = reference;
     }
 
     generate(numero: string) {
+        this.reportService.genereateReport(numero);
         setTimeout(
             () => {
-                this.reportService.genereateReport(numero).subscribe(
-                    rep => {
-                        this.messageService.add({
-                            severity: 'info',
-                            summary: 'Report',
-                            detail: 'Generate Success'
-                        })
-                    },
-                    error => {
-                        this.messageService.add({
-                            severity: 'warn',
-                            summary: 'Report',
-                            detail: 'Nom Generate'
-                        })
+
+                this.reportService.toastMessage.subscribe(
+                    (data) => {
+                        this.messageService.add(data);
                     }
                 )
             }, 2000
-        )
-    }
-
-    download(numero: string) {
-        setTimeout(
-            () => {
-                this.reportService.downloadReport(numero).subscribe(
-                    rep => {
-                        this.messageService.add({
-                            severity: 'info',
-                            summary: 'Report',
-                            detail: 'Download'
-
-                        })
-                    },
-                    error => {
-                        this.messageService.add({
-                            severity: 'warn',
-                            summary: 'Report',
-                            detail: 'Download Refuser'
-
-                        })
-                    }
-                )
-            }, 2000
-        )
+        );
     }
 }
