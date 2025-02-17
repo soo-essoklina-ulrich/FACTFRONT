@@ -109,9 +109,7 @@
                 <div class="mb-6">
                     <label for="input-label-with-helper-text"
                            class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">Libelle</label>
-                    <input pInputText type="text" id="input-label-with-helper-text" formControlName="libelle"
-                           class="w-full md:w-full "
-                           aria-describedby="hs-input-helper-text">
+                    <textarea class="w-full md:w-full min-h-3  " formControlName="libelle"  id="input-label-with-helper-text" rows="5" cols="30" pTextarea ></textarea>
 
 
                     <p *ngIf="form.get('libelle')?.errors?.['required'] && form.get('libelle')?.touched"

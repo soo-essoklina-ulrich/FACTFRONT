@@ -12,6 +12,7 @@ import {NgIf} from "@angular/common";
 import {InputText} from "primeng/inputtext";
 import {LoaderComponent} from "../../layout/component/loader/loader.component";
 import {InputNumber} from "primeng/inputnumber";
+import { Textarea } from 'primeng/textarea';
 
 @Component({
     selector: 'app-article',
@@ -25,7 +26,8 @@ import {InputNumber} from "primeng/inputnumber";
         NgIf,
         InputText,
         LoaderComponent,
-        InputNumber
+        InputNumber,
+        Textarea
     ],
     templateUrl: './article.component.html',
     styleUrl: './article.component.scss',
