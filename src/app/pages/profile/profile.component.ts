@@ -8,6 +8,7 @@ import {InputText} from "primeng/inputtext";
 import {FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MessageService} from "primeng/api";
 import {Password} from "primeng/password";
+import { Toast } from 'primeng/toast';
 
 @Component({
     selector: 'app-profile',
@@ -21,7 +22,8 @@ import {Password} from "primeng/password";
         InputText,
         ReactiveFormsModule,
         FormsModule,
-        Password
+        Password,
+        Toast
     ],
     templateUrl: './profile.component.html',
     styleUrl: './profile.component.scss',
@@ -63,7 +65,8 @@ export class ProfileComponent implements OnInit {
             console.log(passworddto);
             this.UserService.changepassword(passworddto).subscribe(
                 (data) => {
-                    this.msg.add({severity: 'success', summary: 'Succès', detail: 'Mot de passe modifié avec succès'});
+
+                    data ?this.msg.add({severity: 'success', summary: 'Succès', detail: 'Mot de passe modifié avec succès'}) : this.msg.add({severity: 'error', summary: 'Erreur', detail: 'Erreur lors de la modification du mot de passe'});
                 },
                 (error) => {
                     console.log(error);
@@ -74,6 +77,9 @@ export class ProfileComponent implements OnInit {
                     });
                 }
             );
+        }
+        else {
+            this.msg.add({severity: 'error', summary: 'Erreur', detail: 'Veuillez remplir les champs correctement'});
         }
     }
 }

@@ -94,6 +94,6 @@ export class UserService {
           newPassword: string
       }
   ){
-     return this.http.post<null>(this.url + `/change-password`, value)
+     return this.http.post<boolean>(this.url + `/change-password`, value)
   }
 }
