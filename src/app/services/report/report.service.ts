@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {environment} from "../../../environments/environment";
 import {HttpClient} from "@angular/common/http";
+import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
@@ -13,11 +14,7 @@ export class ReportService {
     ) {
     }
 
-    genereateReport(numero: string) {
-        return this.http.get(`${this.url}/${numero}`)
-    }
-
-    downloadReport(numero: string) {
-        return this.http.get(`${this.url}/${numero}/download`)
+    genereateReport(numero: string):Observable<ArrayBuffer> {
+        return this.http.get(`${this.url}/${numero}`, {responseType: 'arraybuffer'});
     }
 }
