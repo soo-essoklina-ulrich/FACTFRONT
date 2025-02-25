@@ -13,10 +13,7 @@ export class ReportService {
 
     toastMessage = this.toastMeesageSubject.asObservable();
 
-    constructor(
-        private http: HttpClient
-    ) {
-    }
+    constructor(private http: HttpClient) {}
 
     genereateReport(numero: string) {
         this.http.get(`${this.url}/${numero}`, { responseType: 'arraybuffer' }).subscribe(
@@ -24,14 +21,14 @@ export class ReportService {
                 const blob = new Blob([data], { type: 'application/pdf' });
                 const url = window.URL.createObjectURL(blob);
                 window.open(url);
-            }, error => {
+            },
+            (error) => {
                 console.log(error);
                 this.toastMeesageSubject.next({
                     severity: 'warn',
                     summary: 'Génération du rapport',
                     detail: 'Erreur de génération du rapport'
                 });
-
             }
         );
     }

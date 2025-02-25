@@ -1,49 +1,32 @@
-import {Component, OnInit} from '@angular/core';
-import {LoaderComponent} from "../../layout/component/loader/loader.component";
-import {TableModule} from "primeng/table";
-import {Toast} from "primeng/toast";
-import {UtilisateurDto} from "../../models/Utilisateur";
-import {FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {MessageService} from "primeng/api";
-import {UserService} from "../../services/user/user.service";
-import {DatePipe} from "@angular/common";
-import {Button} from "primeng/button";
-import {Tooltip} from "primeng/tooltip";
-import {InputText} from "primeng/inputtext";
-import {Dialog} from "primeng/dialog";
-import {InputNumber} from "primeng/inputnumber";
-import {Password} from "primeng/password";
-import {ToggleSwitch} from "primeng/toggleswitch";
+import { Component, OnInit } from '@angular/core';
+import { LoaderComponent } from '../../layout/component/loader/loader.component';
+import { TableModule } from 'primeng/table';
+import { Toast } from 'primeng/toast';
+import { UtilisateurDto } from '../../models/Utilisateur';
+import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MessageService } from 'primeng/api';
+import { UserService } from '../../services/user/user.service';
+import { DatePipe } from '@angular/common';
+import { Button } from 'primeng/button';
+import { Tooltip } from 'primeng/tooltip';
+import { InputText } from 'primeng/inputtext';
+import { Dialog } from 'primeng/dialog';
+import { InputNumber } from 'primeng/inputnumber';
+import { Password } from 'primeng/password';
+import { ToggleSwitch } from 'primeng/toggleswitch';
 
 @Component({
     selector: 'app-user',
-    imports: [
-        LoaderComponent,
-        TableModule,
-        Toast,
-        DatePipe,
-        Button,
-        Tooltip,
-        InputText,
-        Dialog,
-        ReactiveFormsModule,
-        InputNumber,
-        Password,
-        ToggleSwitch,
-        FormsModule
-    ],
+    imports: [LoaderComponent, TableModule, Toast, DatePipe, Button, Tooltip, InputText, Dialog, ReactiveFormsModule, InputNumber, Password, ToggleSwitch, FormsModule],
     templateUrl: './user.component.html',
     styleUrl: './user.component.scss',
-    providers: [
-        MessageService
-    ]
+    providers: [MessageService]
 })
 export class UserComponent implements OnInit {
     loading: boolean = true;
     userlisto: UtilisateurDto[] = [];
     userlist: UtilisateurDto[] = [];
     user!: UtilisateurDto;
-
 
     visibleaddmoal: boolean = false;
     visibleeditmoal: boolean = false;
@@ -55,14 +38,12 @@ export class UserComponent implements OnInit {
     constructor(
         private UserService: UserService,
         private messageService: MessageService
-    ) {
-    }
+    ) {}
 
     ngOnInit(): void {
         this.createform();
         this.getUsers();
     }
-
 
     createform() {
         this.form = this.UserService.createFormSave();
@@ -73,7 +54,7 @@ export class UserComponent implements OnInit {
         this.loading = true;
         setTimeout(() => {
             this.UserService.getAllorOnebyEmail().subscribe(
-                data => {
+                (data) => {
                     this.userlisto = data;
                     this.userlist = data;
                     this.loading = false;
@@ -83,7 +64,7 @@ export class UserComponent implements OnInit {
                         detail: 'Utilisateurs récupérés avec succès'
                     });
                 },
-                error => {
+                (error) => {
                     console.log(error);
                     this.messageService.add({
                         severity: 'error',
@@ -91,7 +72,8 @@ export class UserComponent implements OnInit {
                         detail: error.error.message
                     });
                     this.loading = false;
-                });
+                }
+            );
         }, 1000);
     }
 
@@ -109,15 +91,15 @@ export class UserComponent implements OnInit {
             },
             (error) => {
                 console.log(error);
-                this.messageService.add({severity: 'error', summary: 'Erreur', detail: error.error.message});
+                this.messageService.add({ severity: 'error', summary: 'Erreur', detail: error.error.message });
             }
-        )
+        );
     }
 
     editUser() {
         this.UserService.update(this.formupdate.value.id, this.formupdate.value).subscribe(
             (data) => {
-                this.userlisto = this.userlist = this.userlist.map(user => user.id === data.id ? data : user);
+                this.userlisto = this.userlist = this.userlist.map((user) => (user.id === data.id ? data : user));
                 this.messageService.add({
                     severity: 'success',
                     summary: 'Succès',
@@ -128,15 +110,15 @@ export class UserComponent implements OnInit {
             },
             (error) => {
                 console.log(error);
-                this.messageService.add({severity: 'error', summary: 'Erreur', detail: error.error.message});
+                this.messageService.add({ severity: 'error', summary: 'Erreur', detail: error.error.message });
             }
-        )
+        );
     }
 
     supprimerUser(id: string) {
         this.UserService.delete(id).subscribe(
             () => {
-                this.userlisto = this.userlist = this.userlist.filter(user => user.id !== id);
+                this.userlisto = this.userlist = this.userlist.filter((user) => user.id !== id);
                 this.messageService.add({
                     severity: 'success',
                     summary: 'Succès',
@@ -145,7 +127,7 @@ export class UserComponent implements OnInit {
             },
             (error) => {
                 console.log(error);
-                this.messageService.add({severity: 'error', summary: 'Erreur', detail: error.error.message});
+                this.messageService.add({ severity: 'error', summary: 'Erreur', detail: error.error.message });
             }
         );
     }
@@ -154,19 +136,23 @@ export class UserComponent implements OnInit {
         setTimeout(() => {
             this.UserService.activateorDesactivate(id).subscribe(
                 (data) => {
-                    this.userlisto = this.userlist = this.userlist.map(user => user.id === id ? {
-                        ...user,
-                        actif: data
-                    } : user);
+                    this.userlisto = this.userlist = this.userlist.map((user) =>
+                        user.id === id
+                            ? {
+                                  ...user,
+                                  actif: data
+                              }
+                            : user
+                    );
                     this.messageService.add({
                         severity: 'success',
                         summary: 'Succès',
-                        detail: `Utilisateur ${data?'Active':'Desacter'} avec succès`
+                        detail: `Utilisateur ${data ? 'Active' : 'Desacter'} avec succès`
                     });
                 },
                 (error) => {
                     console.log(error);
-                    this.messageService.add({severity: 'error', summary: 'Erreur', detail: error.error.message});
+                    this.messageService.add({ severity: 'error', summary: 'Erreur', detail: error.error.message });
                 }
             );
         });
@@ -179,14 +165,14 @@ export class UserComponent implements OnInit {
 
     showEditDialog(id: string) {
         this.dialogheader = 'Modifier Utilisateur';
-        this.user = this.userlist.find(user => user.id === id) as UtilisateurDto;
+        this.user = this.userlist.find((user) => user.id === id) as UtilisateurDto;
         const user = {
             id: this.user.id,
             nom: this.user.nom,
             prenom: this.user.prenom,
             email: this.user.email,
             numero: this.user.telephone
-        }
+        };
         this.formupdate.patchValue(user);
         this.visibleeditmoal = true;
     }
@@ -194,7 +180,7 @@ export class UserComponent implements OnInit {
     filterGlobal(event: Event) {
         const value = (event.target as HTMLInputElement).value;
         if (value.length > 0) {
-            this.userlist = this.userlist.filter(user => user.nom.toLowerCase().includes(value.toLowerCase())|| user.prenom.toLowerCase().includes(value.toLowerCase())|| user.email.toLowerCase().includes(value.toLowerCase()));
+            this.userlist = this.userlist.filter((user) => user.nom.toLowerCase().includes(value.toLowerCase()) || user.prenom.toLowerCase().includes(value.toLowerCase()) || user.email.toLowerCase().includes(value.toLowerCase()));
         } else {
             this.userlist = this.userlisto;
         }

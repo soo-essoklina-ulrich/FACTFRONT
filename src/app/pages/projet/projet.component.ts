@@ -1,48 +1,30 @@
-import {Component, OnInit} from '@angular/core';
-import {ProjetService} from "../../services/projet/projet.service";
-import {MessageService} from "primeng/api";
-import {Projet} from "../../models/Projet";
-import {FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {LoaderComponent} from "../../layout/component/loader/loader.component";
-import {TableModule} from "primeng/table";
-import {Toast} from "primeng/toast";
-import {Button} from "primeng/button";
-import {InputText} from "primeng/inputtext";
-import {Tooltip} from "primeng/tooltip";
-import {DatePipe} from "@angular/common";
-import {ToggleSwitch} from "primeng/toggleswitch";
-import {Dialog} from "primeng/dialog";
-import {Checkbox} from "primeng/checkbox";
-import {FloatLabel} from "primeng/floatlabel";
-import {Textarea} from "primeng/textarea";
-import {Select} from "primeng/select";
-import {Client} from "../../models/Client";
-import {ClientService} from "../../services/client/client.service";
+import { Component, OnInit } from '@angular/core';
+import { ProjetService } from '../../services/projet/projet.service';
+import { MessageService } from 'primeng/api';
+import { Projet } from '../../models/Projet';
+import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { LoaderComponent } from '../../layout/component/loader/loader.component';
+import { TableModule } from 'primeng/table';
+import { Toast } from 'primeng/toast';
+import { Button } from 'primeng/button';
+import { InputText } from 'primeng/inputtext';
+import { Tooltip } from 'primeng/tooltip';
+import { DatePipe } from '@angular/common';
+import { ToggleSwitch } from 'primeng/toggleswitch';
+import { Dialog } from 'primeng/dialog';
+import { Checkbox } from 'primeng/checkbox';
+import { FloatLabel } from 'primeng/floatlabel';
+import { Textarea } from 'primeng/textarea';
+import { Select } from 'primeng/select';
+import { Client } from '../../models/Client';
+import { ClientService } from '../../services/client/client.service';
 
 @Component({
     selector: 'app-projet',
-    imports: [
-        LoaderComponent,
-        TableModule,
-        Toast,
-        Button,
-        InputText,
-        Tooltip,
-        DatePipe,
-        ToggleSwitch,
-        FormsModule,
-        Dialog,
-        ReactiveFormsModule,
-        Checkbox,
-        FloatLabel,
-        Textarea,
-        Select
-    ],
+    imports: [LoaderComponent, TableModule, Toast, Button, InputText, Tooltip, DatePipe, ToggleSwitch, FormsModule, Dialog, ReactiveFormsModule, Checkbox, FloatLabel, Textarea, Select],
     templateUrl: './projet.component.html',
     styleUrl: './projet.component.scss',
-    providers: [
-        MessageService
-    ]
+    providers: [MessageService]
 })
 export class ProjetComponent implements OnInit {
     loading: boolean = true;
@@ -57,15 +39,13 @@ export class ProjetComponent implements OnInit {
 
     form!: FormGroup;
     formupdate!: FormGroup;
-    clients: Client[]= [];
-
+    clients: Client[] = [];
 
     constructor(
         private projetService: ProjetService,
         private messageService: MessageService,
         private clientService: ClientService
-    ) {
-    }
+    ) {}
 
     ngOnInit(): void {
         this.createform();
@@ -132,7 +112,7 @@ export class ProjetComponent implements OnInit {
                 this.messageService.add({
                     severity: 'error',
                     summary: 'Error',
-                    detail: 'Erreur d\'enregistrement du projet'
+                    detail: "Erreur d'enregistrement du projet"
                 });
             }
         );
@@ -141,7 +121,7 @@ export class ProjetComponent implements OnInit {
     updateProjet() {
         this.projetService.updateProjet(this.formupdate.value, this.projet.id).subscribe(
             (data) => {
-                this.projetlisto = this.projetlist = this.projetlisto.map((p) => p.id === data.id ? data : p);
+                this.projetlisto = this.projetlist = this.projetlisto.map((p) => (p.id === data.id ? data : p));
                 this.messageService.add({
                     severity: 'success',
                     summary: 'Success',
@@ -185,20 +165,24 @@ export class ProjetComponent implements OnInit {
     changeOffre(id: string) {
         this.projetService.changeOffre(id).subscribe(
             (data) => {
-                this.projetlisto = this.projetlist = this.projetlist.map((p) => p.id === id ? {
-                    ...p,
-                    offre: data,
-                    update_at: new Date
-                } : p);
+                this.projetlisto = this.projetlist = this.projetlist.map((p) =>
+                    p.id === id
+                        ? {
+                              ...p,
+                              offre: data,
+                              update_at: new Date()
+                          }
+                        : p
+                );
 
-                this.messageService.add({severity: 'success', summary: 'Success', detail: 'Offre changer avec succes'});
+                this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Offre changer avec succes' });
             },
             (error) => {
                 console.log(error);
                 this.messageService.add({
                     severity: 'error',
                     summary: 'Error',
-                    detail: 'Erreur de changement de l\'offre'
+                    detail: "Erreur de changement de l'offre"
                 });
             }
         );

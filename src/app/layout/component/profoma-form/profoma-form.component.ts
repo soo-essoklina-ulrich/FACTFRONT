@@ -1,45 +1,31 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {Toast} from "primeng/toast";
-import {MessageService} from "primeng/api";
-import {FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {ProformaService} from "../../../services/dossier/proforma.service";
-import {InputText} from "primeng/inputtext";
-import {Dialog} from "primeng/dialog";
-import {Article_QuantiteSave} from "../../../models/dossier/Article_Quantite";
-import {Select} from "primeng/select";
-import {ClientService} from "../../../services/client/client.service";
-import {Client} from "../../../models/Client";
-import {Projet} from "../../../models/Projet";
-import {ProjetService} from "../../../services/projet/projet.service";
-import {Button} from "primeng/button";
-import {ArticleService} from "../../../services/article/article.service";
-import {Article} from "../../../models/Article";
-import {InputNumber} from "primeng/inputnumber";
-import {TableModule} from "primeng/table";
-import {Tooltip} from "primeng/tooltip";
-import {Proforma} from "../../../models/dossier/Proforma";
-import {ToggleSwitch} from "primeng/toggleswitch";
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Toast } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
+import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ProformaService } from '../../../services/dossier/proforma.service';
+import { InputText } from 'primeng/inputtext';
+import { Dialog } from 'primeng/dialog';
+import { Article_QuantiteSave } from '../../../models/dossier/Article_Quantite';
+import { Select } from 'primeng/select';
+import { ClientService } from '../../../services/client/client.service';
+import { Client } from '../../../models/Client';
+import { Projet } from '../../../models/Projet';
+import { ProjetService } from '../../../services/projet/projet.service';
+import { Button } from 'primeng/button';
+import { ArticleService } from '../../../services/article/article.service';
+import { Article } from '../../../models/Article';
+import { InputNumber } from 'primeng/inputnumber';
+import { TableModule } from 'primeng/table';
+import { Tooltip } from 'primeng/tooltip';
+import { Proforma } from '../../../models/dossier/Proforma';
+import { ToggleSwitch } from 'primeng/toggleswitch';
 
 @Component({
     selector: 'app-profoma-form',
-    imports: [
-        Toast,
-        InputText,
-        ReactiveFormsModule,
-        Dialog,
-        Select,
-        Button,
-        InputNumber,
-        TableModule,
-        Tooltip,
-        FormsModule,
-        ToggleSwitch
-    ],
+    imports: [Toast, InputText, ReactiveFormsModule, Dialog, Select, Button, InputNumber, TableModule, Tooltip, FormsModule, ToggleSwitch],
     templateUrl: './profoma-form.component.html',
     styleUrl: './profoma-form.component.scss',
-    providers: [
-        MessageService
-    ]
+    providers: [MessageService]
 })
 export class ProfomaFormComponent implements OnInit {
     @Output('proforma') proforma = new EventEmitter<Proforma | null>();
@@ -52,9 +38,9 @@ export class ProfomaFormComponent implements OnInit {
     client: boolean = false;
     article_quantite: Article_QuantiteSave[] = [];
     article_quantiteshow: {
-        article: string,
-        qt: number,
-        prix: number
+        article: string;
+        qt: number;
+        prix: number;
     }[] = [];
     // liste des clients
     clients: Client[] = [];
@@ -70,20 +56,19 @@ export class ProfomaFormComponent implements OnInit {
         private cleintService: ClientService,
         private projetService: ProjetService,
         private articleservice: ArticleService
-    ) {
-    }
+    ) {}
 
     ngOnInit() {
         this.createform();
-        this.initdata()
+        this.initdata();
     }
 
     initdata() {
         this.projetService.getAllProjet().subscribe(
-            data => {
+            (data) => {
                 this.projets = data;
             },
-            error => {
+            (error) => {
                 console.log(error);
                 this.messageService.add({
                     severity: 'error',
@@ -93,10 +78,10 @@ export class ProfomaFormComponent implements OnInit {
             }
         );
         this.cleintService.getClients().subscribe(
-            data => {
+            (data) => {
                 this.clients = data;
             },
-            error => {
+            (error) => {
                 console.log(error);
                 this.messageService.add({
                     severity: 'error',
@@ -106,10 +91,10 @@ export class ProfomaFormComponent implements OnInit {
             }
         );
         this.articleservice.getArticles().subscribe(
-            data => {
-                this.articles = data
+            (data) => {
+                this.articles = data;
             },
-            error => {
+            (error) => {
                 console.log(error);
                 this.messageService.add({
                     severity: 'error',
@@ -117,7 +102,7 @@ export class ProfomaFormComponent implements OnInit {
                     detail: 'Erreur de chargement des données Artiles'
                 });
             }
-        )
+        );
     }
 
     createform() {
@@ -131,23 +116,21 @@ export class ProfomaFormComponent implements OnInit {
 
     SubmitData() {
         this.profromaService.PostData(this.formproforma.value).subscribe(
-            data => {
-                this.proforma.emit(data)
+            (data) => {
+                this.proforma.emit(data);
                 this.formproforma.reset();
                 this.article_quantite = [];
                 this.article_quantiteshow = [];
             },
-            error => {
-                console.log(error)
-                this.messageService.add(
-                    {
-                        severity: 'error',
-                        summary: 'Erroe',
-                        detail: 'Proforma nom creer'
-                    }
-                )
-            },
-        )
+            (error) => {
+                console.log(error);
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'Erroe',
+                    detail: 'Proforma nom creer'
+                });
+            }
+        );
     }
 
     AddArticle() {
@@ -155,7 +138,7 @@ export class ProfomaFormComponent implements OnInit {
             article_id: this.formarticle_quantite.value.article_id.id,
             quantite: this.formarticle_quantite.value.quantite,
             prix_article: this.formarticle_quantite.value.prix_article
-        }
+        };
         this.article_quantite.push(article_quantite);
         this.formarticle_quantite.reset();
     }
@@ -165,21 +148,21 @@ export class ProfomaFormComponent implements OnInit {
             article: this.formarticle_quantite.value.article_id.libelle,
             qt: this.formarticle_quantite.value.quantite,
             prix: this.formarticle_quantite.value.prix_article
-        })
+        });
     }
 
     CloseArticleQtModal() {
         this.formarticle_quantite.reset();
         this.visibladdarticle_quantire = false;
-        this.formproforma.value.articleQuantiteslist = this.article_quantite
+        this.formproforma.value.articleQuantiteslist = this.article_quantite;
     }
 
     removeArtQttoList(article: string) {
-        this.article_quantiteshow = this.article_quantiteshow.filter(a => a.article != article);
+        this.article_quantiteshow = this.article_quantiteshow.filter((a) => a.article != article);
     }
 
     // choix entre client et projet
     projetorclient() {
         this.projetorclientchoix = !this.projetorclientchoix;
-    };
+    }
 }

@@ -1,40 +1,27 @@
-import {Component, OnInit} from '@angular/core';
-import {FormGroup, ReactiveFormsModule} from "@angular/forms";
-import {Article} from "../../models/Article";
-import {ArticleService} from "../../services/article/article.service";
-import {MessageService} from "primeng/api";
-import {TableModule} from "primeng/table";
-import {Button} from "primeng/button";
-import {Tooltip} from "primeng/tooltip";
-import {Dialog} from "primeng/dialog";
-import {Toast} from "primeng/toast";
-import {NgIf} from "@angular/common";
-import {InputText} from "primeng/inputtext";
-import {LoaderComponent} from "../../layout/component/loader/loader.component";
-import {InputNumber} from "primeng/inputnumber";
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Article } from '../../models/Article';
+import { ArticleService } from '../../services/article/article.service';
+import { MessageService } from 'primeng/api';
+import { TableModule } from 'primeng/table';
+import { Button } from 'primeng/button';
+import { Tooltip } from 'primeng/tooltip';
+import { Dialog } from 'primeng/dialog';
+import { Toast } from 'primeng/toast';
+import { NgIf } from '@angular/common';
+import { InputText } from 'primeng/inputtext';
+import { LoaderComponent } from '../../layout/component/loader/loader.component';
+import { InputNumber } from 'primeng/inputnumber';
 import { Textarea } from 'primeng/textarea';
 
 @Component({
     selector: 'app-article',
-    imports: [
-        TableModule,
-        Button,
-        Tooltip,
-        Dialog,
-        ReactiveFormsModule,
-        Toast,
-        NgIf,
-        InputText,
-        LoaderComponent,
-        InputNumber,
-        Textarea
-    ],
+    imports: [TableModule, Button, Tooltip, Dialog, ReactiveFormsModule, Toast, NgIf, InputText, LoaderComponent, InputNumber, Textarea],
     templateUrl: './article.component.html',
     styleUrl: './article.component.scss',
     providers: [MessageService]
 })
 export class ArticleComponent implements OnInit {
-
     visibleaddmoal: boolean = false;
 
     protected form!: FormGroup;
@@ -44,18 +31,15 @@ export class ArticleComponent implements OnInit {
     loading: boolean = true;
     protected visibleeditmoal: boolean = false;
 
-
     constructor(
         private ArticleService: ArticleService,
         private messageService: MessageService
-    ) {
-    }
+    ) {}
 
     ngOnInit(): void {
-        this.createform()
+        this.createform();
         this.getArticles();
     }
-
 
     createform() {
         this.form = this.ArticleService.createform();
@@ -76,10 +60,10 @@ export class ArticleComponent implements OnInit {
                 },
                 (err) => {
                     console.log(err);
-                    this.messageService.add({severity: 'error', summary: 'Error', detail: err.error.detail});
+                    this.messageService.add({ severity: 'error', summary: 'Error', detail: err.error.detail });
                 }
             );
-        }, 3000)
+        }, 3000);
     }
 
     OnSubmit() {
@@ -96,7 +80,7 @@ export class ArticleComponent implements OnInit {
                 });
             },
             (err) => {
-                this.messageService.add({severity: 'error', summary: 'Error', detail: err.error.detail});
+                this.messageService.add({ severity: 'error', summary: 'Error', detail: err.error.detail });
             }
         );
     }
@@ -104,7 +88,7 @@ export class ArticleComponent implements OnInit {
     UpdataeArticle() {
         this.ArticleService.updateArticle(this.article.id, this.form.value).subscribe(
             (res) => {
-                this.articlesList = this.articlesList.map((article) => article.id === this.article.id ? res : article);
+                this.articlesList = this.articlesList.map((article) => (article.id === this.article.id ? res : article));
                 this.articlesListo = this.articlesList;
                 this.visibleeditmoal = false;
                 this.form.reset();
@@ -115,7 +99,7 @@ export class ArticleComponent implements OnInit {
                 });
             },
             (err) => {
-                this.messageService.add({severity: 'error', summary: 'Error', detail: err.error.detail});
+                this.messageService.add({ severity: 'error', summary: 'Error', detail: err.error.detail });
             }
         );
     }
@@ -131,7 +115,7 @@ export class ArticleComponent implements OnInit {
                 });
             },
             (err) => {
-                this.messageService.add({severity: 'error', summary: 'Error', detail: err.error.detail});
+                this.messageService.add({ severity: 'error', summary: 'Error', detail: err.error.detail });
             }
         );
     }
@@ -155,5 +139,4 @@ export class ArticleComponent implements OnInit {
     showAddArticleModal() {
         this.visibleaddmoal = true;
     }
-
 }

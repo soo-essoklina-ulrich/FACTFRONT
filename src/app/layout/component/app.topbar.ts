@@ -1,14 +1,12 @@
 import { Component } from '@angular/core';
 import { MenuItem } from 'primeng/api';
-import { Router, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { StyleClassModule } from 'primeng/styleclass';
 import { AppConfigurator } from './app.configurator';
 import { LayoutService } from '../service/layout.service';
-import { SpeedDial } from 'primeng/speeddial';
 import { LogoutService } from '../../services/auth/logout.service';
 import { Dialog } from 'primeng/dialog';
-import { visible } from 'ansi-colors';
 import { Button } from 'primeng/button';
 import { Tooltip } from 'primeng/tooltip';
 
@@ -23,7 +21,7 @@ import { Tooltip } from 'primeng/tooltip';
                     <i class="pi pi-bars"></i>
                 </button>
                 <a class="layout-topbar-logo" routerLink="/home">
-                    <img src="/identity_redim.ico" width="40">
+                    <img src="/identity_redim.ico" width="40"  alt="SOOSMART LOGO"/>
                     <span>SOOSMART Group</span>
                 </a>
             </div>
@@ -49,9 +47,7 @@ import { Tooltip } from 'primeng/tooltip';
                     </div>
                 </div>
 
-                <button class="layout-topbar-menu-button layout-topbar-action" pStyleClass="@next"
-                        enterFromClass="hidden" enterActiveClass="animate-scalein" leaveToClass="hidden"
-                        leaveActiveClass="animate-fadeout" [hideOnOutsideClick]="true">
+                <button class="layout-topbar-menu-button layout-topbar-action" pStyleClass="@next" enterFromClass="hidden" enterActiveClass="animate-scalein" leaveToClass="hidden" leaveActiveClass="animate-fadeout" [hideOnOutsideClick]="true">
                     <i class="pi pi-ellipsis-v"></i>
                 </button>
 
@@ -65,11 +61,10 @@ import { Tooltip } from 'primeng/tooltip';
                 </div>
             </div>
         </div>
-        <p-dialog header="Logout" [(visible)]="visible" [modal]="true" [style]="{width: '10vw'}" [baseZIndex]="10000">
+        <p-dialog header="Logout" [(visible)]="visible" [modal]="true" [style]="{ width: '10vw' }" [baseZIndex]="10000">
             <div class=" flex justify-around">
-                <p-button type="button" icon="pi pi-times" iconPos="right" severity="info" (click)="visible=false" pTooltip=" Annuler" />
-                <p-button type="button" icon="pi pi-sign-out" iconPos="right" severity="danger" pTooltip="Logout"
-                          (click)="logoutService.logout()" />
+                <p-button type="button" icon="pi pi-times" iconPos="right" severity="info" (click)="visible = false" pTooltip=" Annuler" />
+                <p-button type="button" icon="pi pi-sign-out" iconPos="right" severity="danger" pTooltip="Logout" (click)="logoutService.logout()" />
             </div>
         </p-dialog>
     `
@@ -77,11 +72,14 @@ import { Tooltip } from 'primeng/tooltip';
 export class AppTopbar {
     items!: MenuItem[];
 
-    constructor(public layoutService: LayoutService, protected logoutService: LogoutService) {}
+    constructor(
+        public layoutService: LayoutService,
+        protected logoutService: LogoutService
+    ) {}
 
     toggleDarkMode() {
         this.layoutService.layoutConfig.update((state) => ({ ...state, darkTheme: !state.darkTheme }));
     }
 
-    protected  visible:boolean = false;
+    protected visible: boolean = false;
 }

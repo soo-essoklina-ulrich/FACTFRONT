@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import {environment} from "../../../environments/environment";
-import {HttpClient} from "@angular/common/http";
-import {Crud} from "../_interface/Crud";
+import { environment } from '../../../environments/environment';
+import { HttpClient } from '@angular/common/http';
+import { Crud } from '../_interface/Crud';
 import { Observable } from 'rxjs';
-import {Borderau} from "../../models/dossier/Borderau";
+import { Borderau } from '../../models/dossier/Borderau';
 
 @Injectable({
     providedIn: 'root'
@@ -11,10 +11,7 @@ import {Borderau} from "../../models/dossier/Borderau";
 export class BorderauService implements Crud {
     private url = environment.api_ulr + `borderau`;
 
-    constructor(
-        private http: HttpClient,
-    ) {
-    }
+    constructor(private http: HttpClient) {}
 
     PostData(id_proforma: string): Observable<Borderau> {
         return this.http.post<Borderau>(`${this.url}/${id_proforma}`, {});
@@ -31,5 +28,4 @@ export class BorderauService implements Crud {
     DeleteDAta(id: string): Observable<any> {
         return this.http.delete(`${this.url}/${id}`);
     }
-
 }

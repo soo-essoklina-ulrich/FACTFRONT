@@ -18,25 +18,10 @@ import { ReportService } from '../../../services/report/report.service';
 
 @Component({
     selector: 'app-proforma',
-    imports: [
-        Button,
-        DatePipe,
-        InputText,
-        LoaderComponent,
-        TableModule,
-        Toast,
-        Tooltip,
-        Tag,
-        Dialog,
-        ProfomaFormComponent,
-        FormsModule,
-        NgIf
-    ],
+    imports: [Button, DatePipe, InputText, LoaderComponent, TableModule, Toast, Tooltip, Tag, Dialog, ProfomaFormComponent, FormsModule, NgIf],
     templateUrl: './proforma.component.html',
     styleUrl: './proforma.component.scss',
-    providers: [
-        MessageService
-    ]
+    providers: [MessageService]
 })
 export class ProformaComponent implements OnInit {
     loading: boolean = true;
@@ -50,14 +35,12 @@ export class ProformaComponent implements OnInit {
     profomasave!: Proforma;
     private oldrefernce!: string;
 
-
     constructor(
         private ProformaService: ProformaService,
         private borderauService: BorderauService,
         private messageService: MessageService,
         private reportService: ReportService
-    ) {
-    }
+    ) {}
 
     ngOnInit() {
         this.getAllProforma();
@@ -66,7 +49,7 @@ export class ProformaComponent implements OnInit {
     filterProforma(event: Event) {
         const value = (event.target as HTMLInputElement).value;
         if (value.length > 0) {
-            this.proformalist = this.proformalist.filter(value1 => value1.numero.toLowerCase().includes(value.toLowerCase()));
+            this.proformalist = this.proformalist.filter((value1) => value1.numero.toLowerCase().includes(value.toLowerCase()));
         } else {
             this.proformalist = this.proformalisto;
         }
@@ -81,13 +64,11 @@ export class ProformaComponent implements OnInit {
         if (data) {
             this.proformalist.push(data);
             this.visibleaddmoalproforma = false;
-            this.messageService.add(
-                {
-                    severity: 'success',
-                    summary: 'Succes',
-                    detail: 'Proforma Creer'
-                }
-            );
+            this.messageService.add({
+                severity: 'success',
+                summary: 'Succes',
+                detail: 'Proforma Creer'
+            });
         }
     }
 
@@ -95,7 +76,7 @@ export class ProformaComponent implements OnInit {
         this.loading = true;
         setTimeout(() => {
             this.ProformaService.getAll().subscribe(
-                data => {
+                (data) => {
                     this.proformalisto = this.proformalist = data;
                     this.loading = false;
                     this.messageService.add({
@@ -104,7 +85,7 @@ export class ProformaComponent implements OnInit {
                         detail: 'Proforma recuperer avec success'
                     });
                 },
-                error => {
+                (error) => {
                     console.log(error);
                     this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Proforma non recuperer' });
                     this.loading = false;
@@ -119,18 +100,22 @@ export class ProformaComponent implements OnInit {
 
     adopedAndCreateBorderau(id: string) {
         this.borderauService.PostData(id).subscribe(
-            data => {
-                this.proformalisto = this.proformalist = this.proformalist.map(value => value.id === id ? {
-                    ...value,
-                    adopted: true
-                } as Proforma : value);
+            (data) => {
+                this.proformalisto = this.proformalist = this.proformalist.map((value) =>
+                    value.id === id
+                        ? ({
+                              ...value,
+                              adopted: true
+                          } as Proforma)
+                        : value
+                );
                 this.messageService.add({
                     severity: 'success',
                     summary: 'Success',
                     detail: 'Borderau creer avec success'
                 });
             },
-            error => {
+            (error) => {
                 console.log(error);
                 this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Borderau non creer' });
             }
@@ -139,41 +124,38 @@ export class ProformaComponent implements OnInit {
 
     deleteproforma(numero: string) {
         this.ProformaService.DeleteDAta(numero).subscribe(
-            data => {
+            (data) => {
                 console.log(data);
-                this.proformalisto = this.proformalisto.filter(value => value.numero !== numero);
+                this.proformalisto = this.proformalisto.filter((value) => value.numero !== numero);
                 this.messageService.add({
                     severity: 'success',
                     summary: 'Success',
                     detail: 'Proforma supprimer avec success'
                 });
             },
-            error => {
+            (error) => {
                 this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Proforma non supprimer' });
                 console.log(error);
             }
         );
     }
 
-    showEditDialog(id: string) {
-
-    }
+    showEditDialog(id: string) {}
 
     updaterefrence(id: string, newreference: string) {
-
         if (newreference === this.oldrefernce) {
             return;
         }
 
         this.ProformaService.updatereference(id, newreference).subscribe(
-            data => {
+            (data) => {
                 this.messageService.add({
                     severity: 'success',
                     summary: 'Referncer mis a jour',
                     detail: 'Reference modifier avec success'
                 });
             },
-            error => {
+            (error) => {
                 console.log(error);
 
                 this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Reference non modifier' });
@@ -187,15 +169,10 @@ export class ProformaComponent implements OnInit {
 
     generate(numero: string) {
         this.reportService.genereateReport(numero);
-        setTimeout(
-            () => {
-
-                this.reportService.toastMessage.subscribe(
-                    (data) => {
-                        this.messageService.add(data);
-                    }
-                )
-            }, 2000
-        );
+        setTimeout(() => {
+            this.reportService.toastMessage.subscribe((data) => {
+                this.messageService.add(data);
+            });
+        }, 2000);
     }
 }
