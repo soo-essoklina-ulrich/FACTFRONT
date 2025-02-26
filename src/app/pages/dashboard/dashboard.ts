@@ -16,7 +16,7 @@ import { MessageService } from 'primeng/api';
                 <app-recent-sales-widget [table]="stats.tableList" />
             </div>
             <div class="col-span-12 xl:col-span-6">
-                <app-revenue-stream-widget />
+                <app-revenue-stream-widget [chart]="stats.chart" />
             </div>
         </div>
     `,

@@ -1,25 +1,28 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, Input, OnInit, PLATFORM_ID } from '@angular/core';
 import { ChartModule } from 'primeng/chart';
 import { debounceTime, Subscription } from 'rxjs';
 import { LayoutService } from '../../../layout/service/layout.service';
+import { ChartStat } from '../../../models/statistique/Statistique';
 
 @Component({
     standalone: true,
     selector: 'app-revenue-stream-widget',
     imports: [ChartModule],
     template: `<div class="card !mb-8">
-        <div class="font-semibold text-xl mb-4">Revenue Stream</div>
-        <p-chart type="bar" [data]="chartData" [options]="chartOptions" class="h-80" />
+        <div class="font-semibold text-xl mb-4">Pie Graph</div>
+        <p-chart type="pie" [data]="chartData" [options]="chartOptions" class="h-80" />
     </div>`
 })
-export class RevenueStreamWidget {
+export class RevenueStreamWidget implements OnInit{
+    @Input('chart') chart!:ChartStat[]
+
     chartData: any;
 
     chartOptions: any;
 
-    subscription!: Subscription;
+    subscription: Subscription;
 
-    constructor(public layoutService: LayoutService) {
+    constructor(public layoutService: LayoutService,private cd: ChangeDetectorRef) {
         this.subscription = this.layoutService.configUpdate$.pipe(debounceTime(25)).subscribe(() => {
             this.initChart();
         });
@@ -32,39 +35,19 @@ export class RevenueStreamWidget {
     initChart() {
         const documentStyle = getComputedStyle(document.documentElement);
         const textColor = documentStyle.getPropertyValue('--text-color');
-        const borderColor = documentStyle.getPropertyValue('--surface-border');
-        const textMutedColor = documentStyle.getPropertyValue('--text-color-secondary');
 
         this.chartData = {
-            labels: ['Q1', 'Q2', 'Q3', 'Q4'],
+            labels: this.chart.map(
+                item => item.label
+            ),
             datasets: [
                 {
-                    type: 'bar',
-                    label: 'Subscriptions',
-                    backgroundColor: documentStyle.getPropertyValue('--p-primary-400'),
-                    data: [4000, 10000, 15000, 4000],
-                    barThickness: 32
-                },
-                {
-                    type: 'bar',
-                    label: 'Advertising',
-                    backgroundColor: documentStyle.getPropertyValue('--p-primary-300'),
-                    data: [2100, 8400, 2400, 7500],
-                    barThickness: 32
-                },
-                {
-                    type: 'bar',
-                    label: 'Affiliate',
-                    backgroundColor: documentStyle.getPropertyValue('--p-primary-200'),
-                    data: [4100, 5200, 3400, 7400],
-                    borderRadius: {
-                        topLeft: 8,
-                        topRight: 8,
-                        bottomLeft: 0,
-                        bottomRight: 0
-                    },
-                    borderSkipped: false,
-                    barThickness: 32
+
+                    backgroundColor: [documentStyle.getPropertyValue('--p-cyan-400'),documentStyle.getPropertyValue('--p-green-400'),documentStyle.getPropertyValue('--p-yellow-400')],
+                    data: this.chart.map(
+                        value => value.value
+                    ),
+                    hoverBackgroundColor: [documentStyle.getPropertyValue('--p-cyan-500'), documentStyle.getPropertyValue('--p-green-500'), documentStyle.getPropertyValue('--p-yellow-500')]
                 }
             ]
         };
@@ -75,34 +58,14 @@ export class RevenueStreamWidget {
             plugins: {
                 legend: {
                     labels: {
+                        usePointStyle: true,
                         color: textColor
                     }
                 }
             },
-            scales: {
-                x: {
-                    stacked: true,
-                    ticks: {
-                        color: textMutedColor
-                    },
-                    grid: {
-                        color: 'transparent',
-                        borderColor: 'transparent'
-                    }
-                },
-                y: {
-                    stacked: true,
-                    ticks: {
-                        color: textMutedColor
-                    },
-                    grid: {
-                        color: borderColor,
-                        borderColor: 'transparent',
-                        drawTicks: false
-                    }
-                }
-            }
+
         };
+        this.cd.markForCheck()
     }
 
     ngOnDestroy() {

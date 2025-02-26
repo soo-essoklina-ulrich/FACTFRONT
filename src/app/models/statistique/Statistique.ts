@@ -1,7 +1,8 @@
 export interface  Statistique {
     facture:FactStat
     proforma:FactStat
-    tableList:TableStat[]
+    tableList:TableStat[],
+    chart: ChartStat[]
 }
 
 export interface FactStat
@@ -13,4 +14,8 @@ export interface TableStat{
     numero:number;
     date:Date;
     total:number;
+}
+export interface ChartStat{
+    label:string,
+    value:number
 }
