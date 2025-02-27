@@ -66,15 +66,24 @@
                 </span>
                     </td>
                     <td>
-                        <div class=" flex items-center  justify-start">
-                            <i
-                                class="pi pi-pencil mx-1 cursor-pointer" style="color: blue"
+                        <div class=" flex items-center  justify-center gap-2">
+                            <p-button
+
+                                class=" mx-1 cursor-pointer"
+                                pTooltip="Modifier L'article"
+                                tooltipPosition="top"
+                                icon="fa-solid fa-edit"
+                                severity="secondary"
                                 (click)="editArticle(article.id)"
-                            ></i>
-                            <i
-                                class="pi pi-trash mx-1 cursor-pointer" style="color: red"
+                            ></p-button>
+                            <p-button
+                                pTooltip="Supprimer L'article"
+                                tooltipPosition="top"
+                                severity="danger"
+                                class="mx-1 cursor-pointer"
+                                icon="fa-solid fa-trash"
                                 (click)="deleteArticle(article.id)"
-                            ></i>
+                            ></p-button>
                         </div>
 
                     </td>
