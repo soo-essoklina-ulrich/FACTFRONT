@@ -1,7 +1,7 @@
 # Buil de L'application
 FROM node:22-alpine AS builder
 
-WORKDIR app/
+WORKDIR /app
 
 COPY . .
 
