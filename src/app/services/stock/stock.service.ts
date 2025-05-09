@@ -10,25 +10,26 @@ export class StockService {
     constructor() {}
 
     public settolocalstore_token(token: string) {
-        localStorage.setItem(this.token, token);
+        sessionStorage.setItem(this.token, token);
+
     }
 
     public gettolocalstore_token() {
-        const item = localStorage.getItem(this.token);
+        const item = sessionStorage.getItem(this.token);
         return item ? item : '';
     }
 
     public settolocalstore_refresh(refresh: string) {
-        localStorage.setItem(this.refresh, refresh);
+        sessionStorage.setItem(this.refresh, refresh);
     }
 
     public gettolocalstore_refresh() {
-        const item = localStorage.getItem(this.refresh);
+        const item = sessionStorage.getItem(this.refresh);
         return item ? item : '';
     }
 
     clear() {
-        localStorage.removeItem(this.token);
-        localStorage.removeItem(this.refresh);
+        sessionStorage.removeItem(this.token);
+        sessionStorage.removeItem(this.refresh);
     }
 }
