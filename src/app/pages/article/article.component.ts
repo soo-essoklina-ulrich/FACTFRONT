@@ -13,16 +13,23 @@ import { InputText } from 'primeng/inputtext';
 import { LoaderComponent } from '../../layout/component/loader/loader.component';
 import { InputNumber } from 'primeng/inputnumber';
 import { Textarea } from 'primeng/textarea';
+import { ParamRequestion } from '../../models/pagination/ParamRequestion';
+import { PaginationManuelComponent } from '../../layout/component/paginationmanual/pagination-manuel.component';
+import { TableGenericComponent } from '../../layout/component/table-generic/table-generic.component';
+import { UtilisClass } from '../../../utils/UtilisClass';
 
 @Component({
     selector: 'app-article',
-    imports: [TableModule, Button, Tooltip, Dialog, ReactiveFormsModule, Toast, NgIf, InputText, LoaderComponent, InputNumber, Textarea],
+    imports: [TableModule, Button, Tooltip, Dialog, ReactiveFormsModule, Toast, NgIf, InputText, LoaderComponent, InputNumber, Textarea, PaginationManuelComponent, TableGenericComponent],
     templateUrl: './article.component.html',
     styleUrl: './article.component.scss',
     providers: [MessageService]
 })
 export class ArticleComponent implements OnInit {
+    // pagination
+    pagintion: ParamRequestion = { page: 1, pagesize: 10 };
     visibleaddmoal: boolean = false;
+    columns =[]
 
     protected form!: FormGroup;
     protected articlesListo: Article[] = [];
@@ -48,9 +55,9 @@ export class ArticleComponent implements OnInit {
     getArticles() {
         this.loading = true;
         setTimeout(() => {
-            this.ArticleService.getArticles().subscribe(
+            this.ArticleService.getArticles(this.pagintion).subscribe(
                 (res) => {
-                    this.articlesListo = this.articlesList = res;
+                    this.articlesListo = this.articlesList = res.content;
                     this.loading = false;
                     this.messageService.add({
                         severity: 'success',

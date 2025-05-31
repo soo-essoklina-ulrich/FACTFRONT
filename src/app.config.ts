@@ -8,11 +8,17 @@ import { appRoutes } from './app.routes';
 import { setjwtInterceptor } from './app/services/interceptor/setjwt.interceptor';
 import { jwtErrorInterceptor } from './app/services/interceptor/jwt-error.interceptor';
 import { DialogService } from 'primeng/dynamicdialog';
+import {
+  provideTanStackQuery,
+  QueryClient,
+  withDevtools,
+} from '@tanstack/angular-query-experimental'
 
 export const appConfig: ApplicationConfig = {
     providers: [
         provideRouter(appRoutes, withInMemoryScrolling({ anchorScrolling: 'enabled', scrollPositionRestoration: 'enabled' }), withEnabledBlockingInitialNavigation()),
         provideHttpClient(withFetch(), withInterceptors([setjwtInterceptor, jwtErrorInterceptor])),
+        provideTanStackQuery(new QueryClient(), withDevtools(() => ({ loadDevtools: 'auto' }))),
         provideAnimationsAsync(),
         providePrimeNG({ theme: { preset: Aura, options: { darkModeSelector: '.app-dark' } } }),
         DialogService

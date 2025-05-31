@@ -29,6 +29,11 @@ import { ToggleSwitch } from 'primeng/toggleswitch';
 })
 export class ProfomaFormComponent implements OnInit {
     @Output('proforma') proforma = new EventEmitter<Proforma | null>();
+    // pagination
+    protected page:number=1
+    protected pagesize:number=1
+    protected search:string=''
+
     // formulaire
     formproforma!: FormGroup;
     formarticle_quantite!: FormGroup;
@@ -90,9 +95,15 @@ export class ProfomaFormComponent implements OnInit {
                 });
             }
         );
-        this.articleservice.getArticles().subscribe(
+        this.articleservice.getArticles(
+            {
+                page:this.page,
+                pagesize:this.pagesize,
+                search:''
+            }
+        ).subscribe(
             (data) => {
-                this.articles = data;
+                this.articles = data.content;
             },
             (error) => {
                 console.log(error);

@@ -3,6 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { environment } from '../../../environments/environment';
 import { Article, SaveArticle } from '../../models/Article';
+import { ParamRequestion } from '../../models/pagination/ParamRequestion';
+import { UtilisClass } from '../../../utils/UtilisClass';
+import { CustomResponse } from '../../models/CustomResponse';
 
 @Injectable({
     providedIn: 'root'
@@ -22,8 +25,8 @@ export class ArticleService {
         });
     }
 
-    getArticles() {
-        return this.http.get<Article[]>(this.url);
+    getArticles(pagiantion:ParamRequestion) {
+        return this.http.get<CustomResponse<Article>>(this.url, {params: UtilisClass.generateRequestParams(pagiantion)});
     }
 
     updateArticle(id: string, article: SaveArticle) {
