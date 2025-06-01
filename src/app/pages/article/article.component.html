@@ -1,9 +1,6 @@
-<p-toast/>
+<p-toast />
 <div class="card">
-    @if (loading) {
-        <app-loader/>
-    } @else {
-       <!-- <p-table
+    <!-- <p-table
 
             [value]="articlesList"
             [rows]="10"
@@ -101,101 +98,54 @@
             </ng-template>
         </p-table>
         <pagination-manuel/>-->
-        <app-table-generic [data]="articlesList" [columns]="columns" />
-    }
+    <app-table-generic
+        [props]="{
+            tabledata: query.data()?.content,
+            columns: columns,
+        }"
+    />
 </div>
 
-
-<p-dialog
-    header="Ajout Article"
-    [(visible)]="visibleaddmoal"
-    [style]="{ width: '25vw' }"
-    [modal]="true"
-    [resizable]="false"
-    [baseZIndex]="10000"
->
+<!-- <p-dialog header="Ajout Article" [(visible)]="visibleaddmoal" [style]="{ width: '25vw' }" [modal]="true" [resizable]="false" [baseZIndex]="10000">
     <div class="card">
         <div class="card-body">
             <form [formGroup]="form" (ngSubmit)="OnSubmit()">
                 <div class="mb-6">
-                    <label for="input-label-with-helper-text"
-                           class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">Libelle</label>
-                    <textarea class="w-full md:w-full min-h-3  " formControlName="libelle"  id="input-label-with-helper-text" rows="5" cols="30" pTextarea ></textarea>
+                    <label for="input-label-with-helper-text" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">Libelle</label>
+                    <textarea class="w-full md:w-full min-h-3" formControlName="libelle" id="input-label-with-helper-text" rows="5" cols="30" pTextarea></textarea>
 
-
-                    <p *ngIf="form.get('libelle')?.errors?.['required'] && form.get('libelle')?.touched"
-                       class="text-sm text-red-500  text-gray-400 opacity-75 mt-2" id="hs-input-helper-text">
-                        ce champ est obligatoire
-                    </p>
-
-
+                    <p *ngIf="form.get('libelle')?.errors?.['required'] && form.get('libelle')?.touched" class="text-sm text-red-500 text-gray-400 opacity-75 mt-2" id="hs-input-helper-text">ce champ est obligatoire</p>
                 </div>
                 <div class="mb-6">
-                    <label for="input-label-with-helper-text1"
-                           class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">Prix
-                        Unitaire</label>
-                    <p-input-number type="number" id="input-label-with-helper-text1" formControlName="prix_unitaire"
-                           class="w-full md:w-full "
-                                    aria-describedby="hs-input-helper-text"></p-input-number>
+                    <label for="input-label-with-helper-text1" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">Prix Unitaire</label>
+                    <p-input-number type="number" id="input-label-with-helper-text1" formControlName="prix_unitaire" class="w-full md:w-full" aria-describedby="hs-input-helper-text"></p-input-number>
 
-
-                    <p *ngIf="form.get('prix_unitaire')?.errors?.['required'] && form.get('prix_unitaire')?.touched"
-                       class="text-sm text-red-500  text-gray-400 opacity-75 mt-2" id="hs-input-helper-text">
-                        ce champ est obligatoire
-                    </p>
-
+                    <p *ngIf="form.get('prix_unitaire')?.errors?.['required'] && form.get('prix_unitaire')?.touched" class="text-sm text-red-500 text-gray-400 opacity-75 mt-2" id="hs-input-helper-text">ce champ est obligatoire</p>
                 </div>
 
                 <p-button type="submit" icon="pi pi-plus" [hidden]="!form.valid"></p-button>
             </form>
         </div>
     </div>
-
 </p-dialog>
 
-<p-dialog
-    header="Edit Article"
-    [(visible)]="visibleeditmoal"
-    [style]="{ width: '25vw' }"
-    [modal]="true"
-    [resizable]="false"
-    [baseZIndex]="10000"
-    (onHide)="form.reset()"
->
+<p-dialog header="Edit Article" [(visible)]="visibleeditmoal" [style]="{ width: '25vw' }" [modal]="true" [resizable]="false" [baseZIndex]="10000" (onHide)="form.reset()">
     @if (article) {
         <form [formGroup]="form" (ngSubmit)="UpdataeArticle()">
             <div class="mb-6">
-                <label for="input-label-with-helper-text"
-                       class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">Libelle</label>
-                <input pInputText type="text" id="input-label-with-helper-text" formControlName="libelle"
-                       class="w-full md:w-full "
-                       aria-describedby="hs-input-helper-text">
+                <label for="input-label-with-helper-text" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">Libelle</label>
+                <input pInputText type="text" id="input-label-with-helper-text" formControlName="libelle" class="w-full md:w-full" aria-describedby="hs-input-helper-text" />
 
-
-                <p *ngIf="form.get('libelle')?.errors?.['required'] && form.get('libelle')?.touched"
-                   class="text-sm text-red-500  text-gray-400 opacity-75 mt-2" id="hs-input-helper-text">
-                    ce champ est obligatoire
-                </p>
-
-
+                <p *ngIf="form.get('libelle')?.errors?.['required'] && form.get('libelle')?.touched" class="text-sm text-red-500 text-gray-400 opacity-75 mt-2" id="hs-input-helper-text">ce champ est obligatoire</p>
             </div>
             <div class="mb-6">
-                <label for="input-label-with-helper-text1"
-                       class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">Prix Unitaire</label>
-                <input pInputText type="number" id="input-label-with-helper-text1" formControlName="prix_unitaire"
-                       class="w-full md:w-full "
-                       aria-describedby="hs-input-helper-text">
+                <label for="input-label-with-helper-text1" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">Prix Unitaire</label>
+                <input pInputText type="number" id="input-label-with-helper-text1" formControlName="prix_unitaire" class="w-full md:w-full" aria-describedby="hs-input-helper-text" />
 
-
-                <p *ngIf="form.get('prix_unitaire')?.errors?.['required'] && form.get('prix_unitaire')?.touched"
-                   class="text-sm text-red-500  text-gray-400 opacity-75 mt-2" id="hs-input-helper-text">
-                    ce champ est obligatoire
-                </p>
-
+                <p *ngIf="form.get('prix_unitaire')?.errors?.['required'] && form.get('prix_unitaire')?.touched" class="text-sm text-red-500 text-gray-400 opacity-75 mt-2" id="hs-input-helper-text">ce champ est obligatoire</p>
             </div>
 
             <p-button type="submit" label="Update" [hidden]="!form.valid"></p-button>
         </form>
     }
-
-</p-dialog>
+</p-dialog> -->

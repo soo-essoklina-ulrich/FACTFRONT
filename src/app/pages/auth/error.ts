@@ -27,6 +27,6 @@ import { AppFloatingConfigurator } from '../../layout/component/app.floatingconf
                     </div>
                 </div>
             </div>
-        </div>`
+        </div>`,
 })
 export class Error {}

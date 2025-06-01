@@ -1,0 +1,9 @@
+<div class="flex items-center p-24 flex-col text-center">
+    <div class="flex flex-col gap-2 is-[90vw] sm:is-[unset] mb-6">
+        <h4>{{ props.title ?? "Une erreur s'est produite 😓" }}</h4>
+        <p class="text-slate-300">{{ props.subtitle ?? 'Veuillez réessayer plustard !' }}</p>
+    </div>
+    @if (props.backButton) {
+        <p-button [label]="props.buttonText ?? 'Retour'"></p-button>
+    }
+</div>

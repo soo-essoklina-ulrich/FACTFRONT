@@ -25,8 +25,8 @@ export class ArticleService {
         });
     }
 
-    getArticles(pagiantion:ParamRequestion) {
-        return this.http.get<CustomResponse<Article>>(this.url, {params: UtilisClass.generateRequestParams(pagiantion)});
+    getArticles(params:ParamRequestion) {
+        return this.http.get<CustomResponse<Article>>(this.url, {params: params});
     }
 
     updateArticle(id: string, article: SaveArticle) {

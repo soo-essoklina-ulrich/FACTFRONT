@@ -24,7 +24,7 @@ import { ClientService } from '../../services/client/client.service';
     imports: [LoaderComponent, TableModule, Toast, Button, InputText, Tooltip, DatePipe, ToggleSwitch, FormsModule, Dialog, ReactiveFormsModule, Checkbox, FloatLabel, Textarea, Select],
     templateUrl: './projet.component.html',
     styleUrl: './projet.component.scss',
-    providers: [MessageService]
+    providers: [MessageService],
 })
 export class ProjetComponent implements OnInit {
     loading: boolean = true;
@@ -68,6 +68,7 @@ export class ProjetComponent implements OnInit {
             }
         );
     }
+
     getProjets() {
         this.loading = true;
         setTimeout(() => {
@@ -78,7 +79,7 @@ export class ProjetComponent implements OnInit {
                     this.messageService.add({
                         severity: 'success',
                         summary: 'Success',
-                        detail: 'Projet recuperer avec succes'
+                        detail: 'Projet recuperer avec succes',
                     });
                 },
                 (error) => {
@@ -86,7 +87,7 @@ export class ProjetComponent implements OnInit {
                     this.messageService.add({
                         severity: 'error',
                         summary: 'Error',
-                        detail: 'Erreur de recuperation des projets'
+                        detail: 'Erreur de recuperation des projets',
                     });
                     this.loading = false;
                 }
@@ -102,7 +103,7 @@ export class ProjetComponent implements OnInit {
                 this.messageService.add({
                     severity: 'success',
                     summary: 'Success',
-                    detail: 'Projet enregistrer avec succes'
+                    detail: 'Projet enregistrer avec succes',
                 });
                 this.visibleaddmoal = false;
                 this.form.reset();
@@ -112,7 +113,7 @@ export class ProjetComponent implements OnInit {
                 this.messageService.add({
                     severity: 'error',
                     summary: 'Error',
-                    detail: "Erreur d'enregistrement du projet"
+                    detail: "Erreur d'enregistrement du projet",
                 });
             }
         );
@@ -125,7 +126,7 @@ export class ProjetComponent implements OnInit {
                 this.messageService.add({
                     severity: 'success',
                     summary: 'Success',
-                    detail: 'Projet modifier avec succes'
+                    detail: 'Projet modifier avec succes',
                 });
                 this.visibleeditmoal = false;
                 this.formupdate.reset();
@@ -135,7 +136,7 @@ export class ProjetComponent implements OnInit {
                 this.messageService.add({
                     severity: 'error',
                     summary: 'Error',
-                    detail: 'Erreur de modification du projet'
+                    detail: 'Erreur de modification du projet',
                 });
             }
         );
@@ -148,7 +149,7 @@ export class ProjetComponent implements OnInit {
                 this.messageService.add({
                     severity: 'success',
                     summary: 'Success',
-                    detail: 'Projet supprimer avec succes'
+                    detail: 'Projet supprimer avec succes',
                 });
             },
             (error) => {
@@ -156,7 +157,7 @@ export class ProjetComponent implements OnInit {
                 this.messageService.add({
                     severity: 'error',
                     summary: 'Error',
-                    detail: 'Erreur de suppression du projet'
+                    detail: 'Erreur de suppression du projet',
                 });
             }
         );
@@ -170,19 +171,23 @@ export class ProjetComponent implements OnInit {
                         ? {
                               ...p,
                               offre: data,
-                              update_at: new Date()
+                              update_at: new Date(),
                           }
                         : p
                 );
 
-                this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Offre changer avec succes' });
+                this.messageService.add({
+                    severity: 'success',
+                    summary: 'Success',
+                    detail: 'Offre changer avec succes',
+                });
             },
             (error) => {
                 console.log(error);
                 this.messageService.add({
                     severity: 'error',
                     summary: 'Error',
-                    detail: "Erreur de changement de l'offre"
+                    detail: "Erreur de changement de l'offre",
                 });
             }
         );
@@ -200,7 +205,7 @@ export class ProjetComponent implements OnInit {
         this.formupdate.setValue({
             projet_type: this.projet.projet_type,
             description: this.projet.description,
-            offre: this.projet.offre
+            offre: this.projet.offre,
         });
     }
 

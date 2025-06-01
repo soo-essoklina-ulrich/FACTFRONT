@@ -1,34 +1,66 @@
-<table class="table">
-    <thead>
-        @for (headerGroup of table.getHeaderGroups(); track headerGroup.id) {
-            <tr>
-                @for (headerItem of headerGroup.headers; track headerItem.id) {
-                    <th scope="col">
-                        <ng-container *flexRender="headerItem.column.columnDef.header; props: headerItem.getContext(); let header"><div [innerHTML]="header"></div></ng-container>
-                    </th>
+<p-card>
+    @if (props.title) {
+        <ng-template #title>
+            {{ props.title }}
+        </ng-template>
+    }
+    @if (props.isError) {
+        <ng-template #content>
+            <app-error />
+            <app-error-view />
+        </ng-template>
+    }
+    @if (props.isLoading) {
+        <ng-template #content>
+            <app-loader />
+        </ng-template>
+    }
+    @if (props.tabledata !== undefined && props.tabledata.length > 0) {
+        <table class="min-w-full divide-y divide-gray-200 bg-white rounded-lg shadow overflow-hidden">
+            <thead class="bg-gray-50">
+                @for (headerGroup of table.getHeaderGroups(); track headerGroup.id) {
+                    <tr>
+                        @for (headerItem of headerGroup.headers; track headerItem.id) {
+                            @if (!headerItem.isPlaceholder) {
+                                <th class="px-6 py-3 text-left text-lg font-medium text-gray-500 uppercase tracking-wider" [attr.colspan]="headerItem.colSpan">
+                                    @if (props.renderHeaderCell) {
+                                        {{ props.renderHeaderCell(headerItem) }}
+                                    } @else {
+                                        <ng-container *flexRender="headerItem.column.columnDef.header; props: headerItem.getContext(); let header">
+                                            <div [innerHTML]="header"></div>
+                                        </ng-container>
+                                    }
+                                </th>
+                            }
+                        }
+                    </tr>
                 }
-            </tr>
-        }
-    </thead>
-    <tbody>
-      @for (row of table.getRowModel().rows; track row.id) {
-        <tr>
-          @for (cell of row.getVisibleCells(); track cell.id) {
-            <td>
-              <ng-container
-                *flexRender="
-                  cell.column.columnDef.cell;
-                  props: cell.getContext();
-                  let cell
-                "
-              >
-
-
-                <div [innerHTML]="cell"></div>
-              </ng-container>
-            </td>
-          }
-        </tr>
-      }
-    </tbody>
-</table>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+                @for (row of table.getRowModel().rows; track row.id) {
+                    <tr class="hover:bg-gray-100 transition-colors">
+                        @for (cell of row.getVisibleCells(); track cell.id) {
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                <ng-container *flexRender="cell.column.columnDef.cell; props: cell.getContext(); let cell">
+                                    <div [innerHTML]="cell"></div>
+                                </ng-container>
+                            </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="card flex justify-center">
+            <p-paginator
+                (onPageChange)="onPageChange($event)"
+                [first]="props.page ?? 1"
+                [rows]="props.pageSize ?? 10"
+                [totalRecords]="props.count"
+                [showCurrentPageReport]="true"
+                [showPageLinks]="false"
+                [showJumpToPageDropdown]="false"
+                currentPageReportTemplate="Afficher {first} a {last} de {totalRecords}"
+            />
+        </div>
+    }
+</p-card>
